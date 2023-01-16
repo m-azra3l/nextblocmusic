@@ -11,9 +11,11 @@
 # next.js
 /.next/
 /out/
-
+/nextreset
+gitcommand.txt
 # production
 /build
+.secret
 
 # misc
 .DS_Store
@@ -78,3 +80,4 @@ typechain-types
 cache
 artifacts
 
+hardhat.config.js
