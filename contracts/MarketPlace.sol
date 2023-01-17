@@ -1,80 +1,105 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.17;
 
+//import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "./NFT.sol";
 
-import "hardhat/console.sol";
-
-contract MarketPlace is ReentrancyGuard{
+contract MarketPlace is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
     Counters.Counter private _itemsSold;
     address payable owner;
-    uint256 listingPrice = 0.25 ether;    
+    uint256 listingPrice = 0.0025 ether;    
 
-    constructor ()
-    {
+    constructor (){
         owner = payable(msg.sender);
     }
+
     struct MarketItem {
-        uint itemId;
-        uint256 tokenId;
+        uint itemId;        
         address nftContract;
-        address payable owner;
+        uint256 tokenId;
         address payable seller;
+        address payable owner;
         uint256 price;
         bool sold;
+        string imageURI;
+        string songURI;
     }
 
-    mapping(uint256 => MarketItem) private idtoMarketItem; 
+    mapping(uint256 => MarketItem) private idToMarketItem;
 
     event MarketItemCreated (
-        uint indexed itemId,
-        uint256 indexed tokenId,
+        uint indexed itemId,        
         address indexed nftContract,
-        address owner,
+        uint256 indexed tokenId,
         address seller,
+        address owner,
         uint256 price,
-        bool sold
+        bool sold,
+        string imageURI,
+        string songURI
     );
     
     function getListingPrice() public view returns (uint256) {return listingPrice;}
-
+    
     function createMarketItem(
         address nftContract,
         uint256 tokenId,
-        uint256 price
+        uint256 price,
+        string memory tokenURI,
+        string memory imageURI,
+        string memory songURI
     )public payable nonReentrant{
-        require(price > 0,"price must be at least 1 wei");
-        require(msg.value == listingPrice,"price must be at least 1 wei");
+        require(price > 0,"Price must be at least 1 wei");
+        require(msg.value == listingPrice,"Price must be at same with listing price");
 
-        _itemIds.increment;
+        _itemIds.increment();
         uint256 itemId = _itemIds.current();
-        idtoMarketItem[itemId] = MarketItem(
-            itemId,            
+        NFT(nftContract).createToken(tokenURI,imageURI,songURI);
+        idToMarketItem[itemId] = MarketItem(
+            itemId, 
+            nftContract,           
             tokenId,
-            nftContract,
             payable (msg.sender),
             payable (address(0)),
             price,            
-            false
+            false,
+            imageURI,
+            songURI
+        );
+
+        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+
+        emit MarketItemCreated(
+            itemId,
+            nftContract,
+            tokenId,
+            msg.sender,
+            address(0),
+            price, 
+            false,
+            imageURI,
+            songURI
         );
     }
+    
     function createMarketSale(
         address nftContract,
         uint256 itemId
     )public payable nonReentrant{
-        uint price = idtoMarketItem[itemId].price;
-        uint tokenId = idtoMarketItem[itemId].tokenId;
+        uint price = idToMarketItem[itemId].price;
+        uint tokenId = idToMarketItem[itemId].tokenId;
 
         require(msg.value == price, "Please provide the asking price to make purchase.");
 
-        idtoMarketItem[itemId].seller.transfer(msg.value);
+        idToMarketItem[itemId].seller.transfer(msg.value);
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
-        idtoMarketItem[itemId].owner = payable(msg.sender);
-        idtoMarketItem[itemId].sold = true;
+        idToMarketItem[itemId].owner = payable(msg.sender);
+        idToMarketItem[itemId].sold = true;
         _itemsSold.increment();
         payable(owner).transfer(listingPrice);
     }
@@ -83,13 +108,13 @@ contract MarketPlace is ReentrancyGuard{
         uint itemCount = _itemIds.current();
         uint unsoldItemCount = _itemIds.current() - _itemsSold.current();
         uint currentIndex = 0;
-
+    
         MarketItem[] memory items = new MarketItem[](unsoldItemCount);
-
+    
         for(uint i = 0; i < itemCount; i++){
-            if(idtoMarketItem[i + 1].owner == address(0)){
-                uint currentId = idtoMarketItem[i + 1].itemId;
-                MarketItem storage currentItem = idtoMarketItem[currentId];
+            if(idToMarketItem[i + 1].owner == address(0)){
+                uint currentId = idToMarketItem[i + 1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
             }
@@ -101,41 +126,42 @@ contract MarketPlace is ReentrancyGuard{
         uint totalItemCount = _itemIds.current(); 
         uint itemCount = 0;
         uint currentIndex = 0;
-
+    
         for(uint i = 0; i < totalItemCount; i++){
-            if(idtoMarketItem[i + 1].owner == msg.sender){
+            if(idToMarketItem[i + 1].owner == msg.sender){
                 itemCount += 1;
             }
         }
-
+    
         MarketItem[] memory items = new MarketItem[](itemCount);
+    
         for(uint i = 0; i < totalItemCount; i++){
-            if(idtoMarketItem[i + 1].owner == msg.sender){
-                uint currentId = idtoMarketItem[i + 1].itemId;
-                MarketItem storage currentItem = idtoMarketItem[currentId];
+            if(idToMarketItem[i + 1].owner == msg.sender){
+                uint currentId = idToMarketItem[i + 1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
             }
         }
         return items;
     }
-
+    
     function fetchItemsCreated() public view returns (MarketItem[] memory){
         uint totalItemCount = _itemIds.current(); 
         uint itemCount = 0;
         uint currentIndex = 0;
 
         for(uint i = 0; i < totalItemCount; i++){
-            if(idtoMarketItem[i + 1].seller == msg.sender){
+            if(idToMarketItem[i + 1].seller == msg.sender){
                 itemCount += 1;
             }
         }
 
         MarketItem[] memory items = new MarketItem[](itemCount);
         for(uint i = 0; i < totalItemCount; i++){
-            if(idtoMarketItem[i + 1].seller == msg.sender){
-                uint currentId = idtoMarketItem[i + 1].itemId;
-                MarketItem storage currentItem = idtoMarketItem[currentId];
+            if(idToMarketItem[i + 1].seller == msg.sender){
+                uint currentId = idToMarketItem[i + 1].itemId;
+                MarketItem storage currentItem = idToMarketItem[currentId];
                 items[currentIndex] = currentItem;
                 currentIndex += 1;
             }
@@ -143,3 +169,4 @@ contract MarketPlace is ReentrancyGuard{
         return items;
     }    
 }
+    
