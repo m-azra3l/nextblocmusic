@@ -84,20 +84,22 @@ export default function Dashboard () {
       }
       return item
     }))
+    const solditems = items.filter(i => i.sold)
 
     setlistedNfts(items)
     listsetLoadingState('loaded') 
+    setsoldNfts(solditems)
+    soldsetLoadingState('loaded') 
   }
 
-    //setsoldNfts(solditems)
-    //soldsetLoadingState('loaded')  
+     
     function listNFT(nft) {
       console.log('nft:', nft)
       router.push(`/resell-nft?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
     }
     if (myloadingState === 'loaded' && !mynfts.length) return (<h1>No NFTs owned</h1>)
-    if (listloadingState === 'loaded' && !listednfts.length) return (<h1>No NFTs owned</h1>)
-    //if (soldloadingState === 'loaded' && !soldnfts.length) return (<h1>No NFTs owned</h1>)
+    if (listloadingState === 'loaded' && !listednfts.length) return (<h1>No NFTs listed</h1>)
+    if (soldloadingState === 'loaded' && !soldnfts.length) return (<h1>No NFTs sold</h1>)
 return(
   <>
   <div>
