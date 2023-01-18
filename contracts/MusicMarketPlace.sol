@@ -156,6 +156,32 @@ contract MusicMarketPlace is ERC721URIStorage {
       return items;
     }
 
+    /* Returns only items that a user has sold */
+    function fetchMySoldItems() public view returns (MarketItem[] memory){
+    uint totalItemCount = _tokenIds.current();
+    uint itemCount = 0;
+    uint currentIndex = 0;
+
+    for(uint i = 0; i < totalItemCount; i++){
+        if(idToMarketItem[i + 1].owner == msg.sender && idToMarketItem[i+1].sold == true){
+            itemCount += 1;
+        }
+    }
+
+    MarketItem[] memory items = new MarketItem[](itemCount);
+
+    for(uint i = 0; i < totalItemCount; i++){
+        if(idToMarketItem[i + 1].owner == msg.sender && idToMarketItem[i+1].sold == true){
+            uint currentId = idToMarketItem[i + 1].tokenId;
+            MarketItem storage currentItem = idToMarketItem[currentId];
+            items[currentIndex] = currentItem;
+            currentIndex += 1;
+        }
+    }
+    return items;
+}
+
+
     /* Returns only items a user has listed */
     function fetchItemsListed() public view returns (MarketItem[] memory) {
       uint totalItemCount = _tokenIds.current();
