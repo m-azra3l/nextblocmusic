@@ -40,6 +40,10 @@
   --card-border-rgb: 131, 134, 135;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -94,6 +98,73 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+nav {
+  position: relative;
+  min-width: 350px;
+  min-height: 80px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-radius: 10px;
+  padding: 0 15px;
+  background: black;
+  box-shadow: 0 6.7px 5.3px rgba(0, 0, 0, 0.12), 0 22.3px 17.9px rgba(0, 0, 0, 0.08), 0 100px 80px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+nav ul {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+nav ul li {
+  list-style: none;
+
+}
+nav ul li a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 20px;
+}
+nav ul li a i {
+color:#fff;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  transition: opacity 100ms ease;
+  pointer-events: none;
+}
+nav ul li a.active i{
+  opacity: 1;
+  
+}
+nav .tubelight {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transform: translateX(-50%);
+  width: 45px;
+  height: 5px;
+  border-radius: 5px;
+  background: #ffffff;
+  transition: left 400ms ease;
+  z-index: 10;
+}
+nav .tubelight .light-ray {
+  position: absolute;
+  left: -30%;
+  top: 5px;
+  width: 160%;
+  height: 80px;
+  clip-path: polygon(5% 100%, 25% 0px, 75% 0px, 95% 100%);
+  background: linear-gradient(to bottom, 
+  rgba(255, 255, 255, 0.3) -50%,
+  rgba(255, 255, 255, 0) 90%);
+  pointer-events: none;
+}
+
 
 a {
   color: inherit;

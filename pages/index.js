@@ -2,10 +2,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import { IconContext } from 'react-icons'
+import { FaHome, FaBookmark, FaPlusCircle, FaUser, FaCartPlus } from 'react-icons/fa'
+import { useState } from 'react'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [nav, setNav] = useState(true);
   return (
     <>
       <Head>
@@ -17,26 +22,34 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
+            <nav>        
+              <ul><li><span onClick={() => { setNav(true) }} className="active">
+                  <IconContext.Provider value={{ color: 'white' }}>
+                      <FaHome />
+                  </IconContext.Provider>
+              </span></li></ul>
+              <ul><li><span onClick={() => { setNav(false) }}>
+                  <IconContext.Provider value={{ color: 'white' }}>
+                      <FaBookmark />    
+                  </IconContext.Provider> 
+              </span></li></ul>
+              <ul><li><span onClick={() => { setNav(false) }}>
+                  <IconContext.Provider value={{ color: 'white' }}>
+                      <FaPlusCircle />    
+                  </IconContext.Provider>    
+              </span></li></ul>
+              <ul><li><span onClick={() => { setNav(false) }}>
+                  <IconContext.Provider value={{ color: 'white' }}>
+                      <FaUser />    
+                  </IconContext.Provider>    
+              </span></li></ul>
+              <ul><li><span onClick={() => { setNav(false) }}>
+                  <IconContext.Provider value={{ color: 'white' }}>
+                      <FaCartPlus />    
+                  </IconContext.Provider>    
+              </span></li></ul> 
+            </nav>
           </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
         </div>
 
         <div className={styles.center}>

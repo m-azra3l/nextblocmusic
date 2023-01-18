@@ -1,7 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
-const fs = require("fs")
-const privateKey = fs.readFileSync(".secret").toString()
-const projectId = fs.readFileSync(".infuraId").toString()
+require('dotenv').config();
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -12,13 +10,13 @@ module.exports = {
     
     mumbai: {
       // Infura
-      url: 'https://polygon-mumbai.infura.io/v3/${projectId}',
-      accounts: [privateKey]
+      url: process.env.MUMBAI_INFURA,
+      accounts: [process.env.PRIVATE_INFURA]
     },
     matic: {
       // Infura
-      url: 'https://polygon-mainnet.infura.io/v3/${projectId}',
-      accounts: [privateKey]
+      url: process.env.MATIC_INFURA,
+      accounts: [process.env.PRIVATE_INFURA]
     }
   },
   solidity: {

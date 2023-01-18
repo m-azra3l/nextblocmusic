@@ -11,14 +11,14 @@ function Market() {
         <br/>
         <div className="albums">
             {library.map((e) => (
-              <Link href="/album" state={e} className="albumSelection">
+                <div state={e} className="albumSelection">
                 <img
                   src={e.image}
                   alt={e.title}
                   style={{ width: "150px", marginBottom: "10px" }}
                 ></img>
                 <p>{e.title}</p>
-              </Link>
+              </div>
             ))}
         </div>
         </>
