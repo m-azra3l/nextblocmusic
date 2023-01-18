@@ -66,7 +66,7 @@ contract MusicMarketPlace is ERC721URIStorage {
       require(price > 0, "Price must be at least 1 wei");
       require(msg.value == listingPrice, "Price must be equal to listing price");
 
-      idToMarketItem[tokenId] =  MarketItem(
+      idToMarketItem[tokenId] = MarketItem(
         tokenId,
         payable(msg.sender),
         payable(address(this)),

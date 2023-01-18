@@ -3,9 +3,45 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
   min-height: 100vh;
 }
+
+
+.featuredTitle {
+  color: white;
+  font-size: 35px;
+  font-weight: 600;
+  justify-content: center;
+  display: flex;
+  letter-spacing: 2px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.songs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
+  gap: 80px;
+  row-gap: 30px;
+  -webkit-box-pack: start;
+}
+
+.songSelection {
+  color:rgb(205, 203, 203);
+  text-align: center;
+  transition: transform .4s;
+}
+
+.songSelection:hover {
+  color: white;
+  transform: scale(1.05);
+}
+
 
 .description {
   display: inherit;
@@ -28,7 +64,6 @@
 .description p {
   position: relative;
   margin: 0;
-  padding: 1rem;
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
@@ -72,6 +107,37 @@
   max-width: 30ch;
 }
 
+.centers {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 4rem 0;
+}
+
+.centers::before {
+  background: var(--secondary-glow);
+  border-radius: 50%;
+  width: 480px;
+  height: 360px;
+  margin-left: -400px;
+}
+
+.centers::after {
+  background: var(--primary-glow);
+  width: 240px;
+  height: 180px;
+  z-index: -1;
+}
+
+.centers::before,
+.centers::after {
+  content: '';
+  left: 50%;
+  position: absolute;
+  filter: blur(45px);
+  transform: translateZ(0);
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -113,8 +179,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
   padding: 25px 10px;
   margin-left: 16px;
   transform: translateZ(0);
@@ -222,7 +288,6 @@
   .description p {
     align-items: center;
     inset: 0 0 auto;
-    padding: 2rem 1rem 1.4rem;
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);

@@ -1,136 +1,105 @@
-import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import { IconContext } from 'react-icons'
-import { FaHome, FaBookmark, FaPlusCircle, FaUser, FaCartPlus } from 'react-icons/fa'
-import { useState } from 'react'
+import {ethers} from 'ethers'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import Web3Modal from 'Web3Modal'
 
+import{marketplaceAddress} from '../config'
+import MusicMarketPlace from '../artifacts/contracts/Markeplace.sol/MusicMarketPlace.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [nav, setNav] = useState(true);
+  const [nfts, setNfts] = useState([])
+  const [loadingState, setLoadingState] = useState('not-loaded')
+  useEffect(() => {
+    loadNFTs()
+  }, [])
+  async function loadNFTs() {
+    /* create a generic provider and query for unsold market items */
+    const provider = new ethers.providers.JsonRpcProvider()
+    const contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, provider)
+    const data = await contract.fetchMarketItems()
+
+    /*
+    *  map over items returned from smart contract and format 
+    *  them as well as fetch their token metadata
+    */
+    const items = await Promise.all(data.map(async i => {
+      const tokenUri = await contract.tokenURI(i.tokenId)
+      const meta = await axios.get(tokenUri)
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      let item = {
+        price,
+        tokenId: i.tokenId.toNumber(),
+        seller: i.seller,
+        owner: i.owner,
+        image: meta.data.imageurl,        
+        song: meta.data.songurl,
+        title: meta.data.name,
+        description: meta.data.description,
+      }
+      return item
+    }))
+    setNfts(items)
+    setLoadingState('loaded') 
+  }
+  async function buyNft(nft) {
+    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const contract = new ethers.Contract(marketplaceAddress, MusicMarketplace.abi, signer)
+
+    /* user will be prompted to pay the asking proces to complete the transaction */
+    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
+    const transaction = await contract.createMarketSale(nft.tokenId, {
+      value: price
+    })
+    await transaction.wait()
+    loadNFTs()
+  }
+  if (loadingState === 'loaded' && !nfts.length) return (<h1 className={styles.featuredTitle}>No items in marketplace</h1>)
   return (
     <>
-      <Head>
-        <title>blocMusic</title>
-        <meta name="description" content="Decentralized Music App" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            <nav>        
-              <ul><li><span onClick={() => { setNav(true) }} className="active">
-                  <IconContext.Provider value={{ color: 'white' }}>
-                      <FaHome />
-                  </IconContext.Provider>
-              </span></li></ul>
-              <ul><li><span onClick={() => { setNav(false) }}>
-                  <IconContext.Provider value={{ color: 'white' }}>
-                      <FaBookmark />    
-                  </IconContext.Provider> 
-              </span></li></ul>
-              <ul><li><span onClick={() => { setNav(false) }}>
-                  <IconContext.Provider value={{ color: 'white' }}>
-                      <FaPlusCircle />    
-                  </IconContext.Provider>    
-              </span></li></ul>
-              <ul><li><span onClick={() => { setNav(false) }}>
-                  <IconContext.Provider value={{ color: 'white' }}>
-                      <FaUser />    
-                  </IconContext.Provider>    
-              </span></li></ul>
-              <ul><li><span onClick={() => { setNav(false) }}>
-                  <IconContext.Provider value={{ color: 'white' }}>
-                      <FaCartPlus />    
-                  </IconContext.Provider>    
-              </span></li></ul> 
-            </nav>
-          </p>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
+        <div className={styles.centers}>
+          <br/>
+          <h1>Welcome to blocMusic</h1>
+          <div className={styles.center}>
+            <p>Putting control in the hands of the creator, home of creators supporting their works</p>
+            <div className={styles.thirteen}>
+              <Image
+                src="/images/blocmusic.png"
+                alt="13"
+                width={40}
+                height={31}
+                priority
+              />
+            </div>
           </div>
         </div>
-
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+          <div className={styles.songs}>
+          {
+             nfts.map((nft, i) => (
+              <div className={styles.card}>
+                <img src={nft.image} />
+                  <p>{nft.name}</p>
+                  <p>{nft.description}</p>
+                <div>
+                  <p>{nft.price} ETH</p>
+                  <button onClick={() => buyNft(nft)}>Buy</button>
+                  <button onClick={() => buyNft(nft)}>Play</button>
+                </div>
+              </div>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+             ))
+          }
+          </div>
         </div>
-      </main>
     </>
   )
 }

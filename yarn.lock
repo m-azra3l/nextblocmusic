@@ -649,6 +649,18 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
+"@floating-ui/core@^1.0.5":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.1.0.tgz#0a1dee4bbce87ff71602625d33f711cafd8afc08"
+  integrity sha512-zbsLwtnHo84w1Kc8rScAo5GMk1GdecSlrflIbfnEBJwvTSj1SL6kkOYV+nHraMCPEy+RNZZUaZyL8JosDGCtGQ==
+
+"@floating-ui/dom@^1.0.4":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@floating-ui/dom/-/dom-1.1.0.tgz#29fea1344fdef15b6ba270a733d20b7134fee5c2"
+  integrity sha512-TSogMPVxbRe77QCj1dt8NmRiJasPvuc+eT5jnJ6YpLqgOD2zXc5UA3S1qwybN+GVCDNdKfpKy1oj8RpzLJvh6A==
+  dependencies:
+    "@floating-ui/core" "^1.0.5"
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -3573,6 +3585,13 @@ css-to-react-native@^3.0.0:
     css-color-keywords "^1.0.0"
     postcss-value-parser "^4.0.2"
 
+css-vendor@^0.3.1:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/css-vendor/-/css-vendor-0.3.8.tgz#6421cfd3034ce664fe7673972fd0119fc28941fa"
+  integrity sha512-Vx/Vl3zsHj32Z+WTNzGjd2iSbSIJTYHMmyGUT2nzCjj0Xk4qLfwpQ8nF6TQ5oo3Cf0s/An3DTc7LclH1BkAXbQ==
+  dependencies:
+    is-in-browser "^1.0.2"
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
@@ -6204,6 +6223,11 @@ is-hex-prefixed@1.0.0:
   resolved "https://registry.yarnpkg.com/is-hex-prefixed/-/is-hex-prefixed-1.0.0.tgz#7d8d37e6ad77e5d127148913c573e082d777f554"
   integrity sha512-WvtOiug1VFrE9v1Cydwm+FnXd3+w9GaeVUss5W4v/SLy3UW00vP+6iNF2SdnfiBoLy4bTqVdkftNGTUeOFVsbA==
 
+is-in-browser@^1.0.2:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/is-in-browser/-/is-in-browser-1.1.3.tgz#56ff4db683a078c6082eb95dad7dc62e1d04f835"
+  integrity sha512-FeXIBgG/CPGd/WUxuEyvgGTEfwiG9Z4EKGxjNMRqviiIIfsmgrpnHLffEDdwUHqNva1VEW91o3xBT/m8Elgl9g==
+
 is-map@^2.0.1, is-map@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/is-map/-/is-map-2.0.2.tgz#00922db8c9bf73e81b7a335827bc2a43f2b91127"
@@ -6920,15 +6944,34 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash._getnative@^3.0.0:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
+  integrity sha512-RrL9VxMEPyDMHOd9uFbvMe8X55X16/cGM5IgOKgRElQZutpX89iS6vwl64duTV1/16w5JY7tuFNXqoekmh1EmA==
+
 lodash.assign@^4.0.3, lodash.assign@^4.0.6:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
   integrity sha512-hFuH8TY+Yji7Eja3mGiuAxBqLagejScbG8GbG0j6o9vzn0YL14My+ktnqtZgFTosKymC9/44wP6s7xyuLfnClw==
 
+lodash.debounce@^3.0.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-3.1.1.tgz#812211c378a94cc29d5aa4e3346cf0bfce3a7df5"
+  integrity sha512-lcmJwMpdPAtChA4hfiwxTtgFeNAaow701wWUgVUqeD0XJF7vMXIN+bu/2FJSGxT0NUbZy9g9VFrlOFfPjl+0Ew==
+  dependencies:
+    lodash._getnative "^3.0.0"
+
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.throttle@^3.0.3:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-3.0.4.tgz#bc4f471fb328e4d6fdc6df2b3d3caf113f0f89c9"
+  integrity sha512-dRU/xiF4W8a521NYnQosG5drDqv4+hp3ND6yWNJUMnwO1E87Q/A7oc9M/g6pk29K9U3j/ZWhM3BAQZyr/P6TTQ==
+  dependencies:
+    lodash.debounce "^3.0.0"
 
 lodash@4.17.20:
   version "4.17.20"
@@ -8113,7 +8156,7 @@ promise-to-callback@^1.0.0:
     is-fn "^1.0.0"
     set-immediate-shim "^1.0.1"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8727,6 +8770,16 @@ react-native-fetch-api@^3.0.0:
   dependencies:
     p-defer "^3.0.0"
 
+react-popover@^0.5.10:
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/react-popover/-/react-popover-0.5.10.tgz#40d5e854300a96722ffc1620e49d840cb1ad5db6"
+  integrity sha512-5SYDTfncywSH00I70oHd4gFRUR8V0rJ4sRADSI/P6G0RVXp9jUgaWloJ0Bk+SFnjpLPuipTKuzQNNd2CTs5Hrw==
+  dependencies:
+    css-vendor "^0.3.1"
+    debug "^2.6.8"
+    lodash.throttle "^3.0.3"
+    prop-types "^15.5.10"
+
 react-router-dom@^6.6.2:
   version "6.6.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.6.2.tgz#bbf1f9b45855b218d22fc2d294b79408a084740a"
@@ -8741,6 +8794,14 @@ react-router@6.6.2:
   integrity sha512-uJPG55Pek3orClbURDvfljhqFvMgJRo59Pktywkk8hUUkTY2aRfza8Yhl/vZQXs+TNQyr6tu+uqz/fLxPICOGQ==
   dependencies:
     "@remix-run/router" "1.2.1"
+
+react-tooltip@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-5.5.1.tgz#3f68c42e5625123ed719dac15e9fc66e4159b565"
+  integrity sha512-mx8iL4DDYUdPhN2XbcF4koHyuOOs7/gFXq0TBVfLnRWigzfll7AArMe3yUDipvowW/OASwzdGVgoBECVSMdtBA==
+  dependencies:
+    "@floating-ui/dom" "^1.0.4"
+    classnames "^2.3.2"
 
 react@18.2.0:
   version "18.2.0"
