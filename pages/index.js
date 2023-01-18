@@ -7,7 +7,7 @@ import axios from 'axios'
 import Web3Modal from 'Web3Modal'
 
 import{marketplaceAddress} from '../config'
-import MusicMarketPlace from '../artifacts/contracts/Markeplace.sol/MusicMarketPlace.json'
+import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
 const inter = Inter({ subsets: ['latin'] })
 

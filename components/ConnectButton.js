@@ -1,17 +1,21 @@
 import Web3Modal from 'web3modal'
-
+import '@styles/Home.module.css'
+// const web3Modal = new Web3Modal({
+//   network: 'mainnet', // or 'ropsten' for example
+//   cacheProvider: true,
+//   providerOptions: {
+//     walletconnect: {
+//       package: WalletConnectProvider,
+//       options: {
+//         infuraId: 'your-infura-id'
+//       }
+//     },
+//     metamask: true,
+//   }
+// })
 const web3Modal = new Web3Modal({
-  network: 'mainnet', // or 'ropsten' for example
+  network: "mainnet",
   cacheProvider: true,
-  providerOptions: {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: 'your-infura-id'
-      }
-    },
-    metamask: true,
-  }
 })
 
 function ConnectButton() {
@@ -20,6 +24,7 @@ function ConnectButton() {
 
   async function connect() {
     const provider = await web3Modal.connect()
+    // provider = await web3Modal.connect()
     setProvider(provider)
     setIsConnected(true)
   }
@@ -31,9 +36,9 @@ function ConnectButton() {
   }
 
   return (
-    <div>
-      {!isConnected && <button onClick={connect}>Connect</button>}
-      {isConnected && <button onClick={disconnect}>Disconnect</button>}
+    <div className="card-buttons">
+      {!isConnected && <button className="connect-button" onClick={connect}>Connect</button>}
+      {isConnected && <button className="disconnect-button" onClick={disconnect}>Disconnect</button>}
     </div>
   )
 }
