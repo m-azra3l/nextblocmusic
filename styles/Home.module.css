@@ -72,6 +72,54 @@
   background-color: #555;
 }
 
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.form-group input[type="file"] {
+  padding: 0;
+}
+
+.form-group input[type="file"]::before {
+  content: "Select File";
+  display: inline-block;
+  background: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.form-group input[type="file"]:hover::before {
+  background: #0069d9;
+}
+
+.btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}
+
+
 .connect-button {
   flex: 1;
   padding: 10px 20px;

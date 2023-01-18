@@ -88,7 +88,7 @@ export default function Dashboard () {
     if (!title || !description || !price || !imageUrl || !songUrl) return
     /* first, upload to IPFS */
     const data = JSON.stringify({
-      name, description, image: imageUrl, song: songUrl
+      title, description, image: imageUrl, song: songUrl
     })
     try {
       const added = await client.add(data)
@@ -109,13 +109,13 @@ export default function Dashboard () {
 
     /* next, create the item */
     const price = ethers.utils.parseUnits(formInput.price, 'ether')
-    let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+    let contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
     listingPrice = listingPrice.toString()
     let transaction = await contract.createToken(url, price, { value: listingPrice })
     await transaction.wait()
    
-    router.push('/')
+    router.push('/dashboard')
   }
 
   return(
@@ -161,7 +161,7 @@ export default function Dashboard () {
             onChange={onChange}
           />
           </div>
-          <button onClick={listNFTForSale} className="btn btn-primary">Createt NFT</button>
+          <button onClick={listNFTForSale} className="btn">Createt NFT</button>
         </form>
       }
       place="below"
