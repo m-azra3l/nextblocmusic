@@ -95,9 +95,9 @@ export default function CreateNFT() {
             <form className={styles.buttonContainer}>
                 <div className={styles.formgroup}>
                     <input 
-                    placeholder="Asset Name"
+                    placeholder="Asset Title"
                     className=""
-                    onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
+                    onChange={e => updateFormInput({ ...formInput, title: e.target.value })}
                     />
                 </div>
                 <div className={styles.formgroup}>
