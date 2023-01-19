@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { Inter } from '@next/font/google'
-import '@/styles/Home.module.css'
+import '../styles/Home.module.css'
 import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
@@ -43,6 +43,7 @@ export default function Owned () {
             tokenId: i.tokenId.toNumber(),
             seller: i.seller,
             owner: i.owner,
+            title: meta.data.title,
             image: meta.data.image,
             song: meta.data.songurl,
             tokenURI

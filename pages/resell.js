@@ -3,13 +3,13 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-import '@/styles/Home.module.css'
+import '../styles/Home.module.css'
 
 import {
   marketplaceAddress
 } from '../config'
 
-import NFTMarketplace from '../artifacts/contracts/NFTMarketplace.sol/NFTMarketplace.json'
+import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
 export default function Resell() {
   const [formInput, updateFormInput] = useState({ price: '', image: '' })
@@ -24,7 +24,7 @@ export default function Resell() {
   async function fetchNFT() {
     if (!tokenURI) return
     const meta = await axios.get(tokenURI)
-    updateFormInput(state => ({ ...state, image: meta.data.image }))
+    updateFormInput(state => ({ ...state, image: meta.data.imageUrl }))
   }
 
   async function listNFTForSale() {
@@ -35,7 +35,7 @@ export default function Resell() {
     const signer = provider.getSigner()
 
     const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
-    let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+    let contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
 
     listingPrice = listingPrice.toString()

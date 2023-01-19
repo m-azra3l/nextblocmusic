@@ -42,6 +42,7 @@ export default function Listed () {
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
+        title: meta.data.title,
         image: meta.data.imageurl,
         song: meta.data.songurl
       }

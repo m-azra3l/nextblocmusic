@@ -16,11 +16,13 @@ import Web3Modal from 'web3modal'
 import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
+const { TabPane } = Tabs;
+
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 
 const inter = Inter({ subsets: ['latin'] })
 
-const { TabPane } = Tabs;
+
 
 export default function Dashboard () {
   const [isOpen, setIsOpen] = useState(false)
@@ -73,7 +75,7 @@ export default function Dashboard () {
         )
         const url = `https://ipfs.infura.io/ipfs/${added.path}`
         if (e.target.name === 'image') {
-            setFileUrl(url)
+            setImageUrl(url)
         } else if (e.target.name === 'song') {
             setSongUrl(url)
         }
@@ -162,6 +164,7 @@ export default function Dashboard () {
           />
           </div>
           <button onClick={listNFTForSale} className="btn">Createt NFT</button>
+          <button onClick={handleClick} className="btn-cancel">Cancel</button>
         </form>
       }
       place="below"

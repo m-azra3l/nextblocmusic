@@ -4,9 +4,9 @@ import styles from '@/styles/Home.module.css'
 import {ethers} from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Web3Modal from 'Web3Modal'
+import Web3Modal from 'web3modal'
 
-import{marketplaceAddress} from '../config'
+import{marketplaceAddress} from '../config.js'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -62,7 +62,7 @@ export default function Home() {
     await transaction.wait()
     loadNFTs()
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className={styles.featuredTitle}>No items in marketplace</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (<h1>No items in marketplace</h1>)
   return (
     <>
         <div className={styles.centers}>
@@ -84,7 +84,7 @@ export default function Home() {
         <div className={styles.grid}>
           <div className={styles.songs}>
           {
-             nfts.map((nft, i) => (
+            nfts.map((nft, i) => (
               <div className={styles.card}>
                 <img src={nft.image} />
                   <p>{nft.name}</p>
@@ -96,7 +96,7 @@ export default function Home() {
                 </div>
               </div>
 
-             ))
+            ))
           }
           </div>
         </div>

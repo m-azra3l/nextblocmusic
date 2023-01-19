@@ -18,14 +18,14 @@ export default function Navbar (){
               </span></li></ul>
               <ul><li><span>
                   <IconContext.Provider value={{ color: 'white' }}>
-                    <NavLink href="/">
+                    <NavLink href="/dashboard">
                       <FaUser title='User Dashboard'/>    
                     </NavLink>
                   </IconContext.Provider>    
               </span></li></ul>
               <ul><li><span>
                   <IconContext.Provider value={{ color: 'white' }}>
-                    <NavLink href="/">
+                    <NavLink href="/wallet">
                       <FaWallet title='Wallet' />    
                     </NavLink>
                   </IconContext.Provider>    

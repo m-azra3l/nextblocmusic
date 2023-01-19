@@ -32,32 +32,32 @@
   border-radius: var(--border-radius);
 }
 
-.card {
+.mycard {
   width: 300px;
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
 }
-.card-img-top {
+.cardimgtop {
   width: 100%;
   height: 200px;
   object-fit: cover;
 }
-.card-body {
+.cardbody {
   padding: 20px;
 }
-.card-title {
+.cardtitle {
   margin-bottom: 10px;
 }
-.card-text {
+.cardtext {
   font-size: 14px;
   color: #555;
   margin-bottom: 20px;
 }
-.card-buttons {
+.cardbuttons {
   display: flex;
 }
-.card-button {
+.cardbutton {
   flex: 1;
   padding: 10px 20px;
   background-color: greenyellow;
@@ -68,15 +68,15 @@
   text-align: center;
   transition: all 0.2s ease-in-out;
 }
-.card-button:hover {
+.cardbutton:hover {
   background-color: #555;
 }
 
-.form-group {
+.formgroup {
   margin-bottom: 1rem;
 }
 
-.form-group input, .form-group textarea {
+.formgroup input, .formgroup textarea {
   width: 100%;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -84,11 +84,11 @@
   font-size: 1rem;
 }
 
-.form-group input[type="file"] {
+.formgroup input[type="file"] {
   padding: 0;
 }
 
-.form-group input[type="file"]::before {
+.formgroup input[type="file"]::before {
   content: "Select File";
   display: inline-block;
   background: #007bff;
@@ -99,7 +99,7 @@
   cursor: pointer;
 }
 
-.form-group input[type="file"]:hover::before {
+.formgroup input[type="file"]:hover::before {
   background: #0069d9;
 }
 
@@ -119,34 +119,61 @@
   background-color: #0069d9;
 }
 
-
-.connect-button {
-  flex: 1;
-  padding: 10px 20px;
-  background-color: green;
+.btnCancel {
+  background-color: red;
   color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btnCancel:hover {
+  background-color: #0069d9;
+}
+
+.buttonContainer {
+  position: absolute; /* Position the container at the top center of the page */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
+}
+
+.connectButton {
+  position: absolute;
+  background-color: #4CAF50; 
   border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
 }
-.connect-button:hover {
+
+.connectButton:hover {
   background-color: lightseagreen;
 }
 
-.disconnect-button {
-  flex: 1;
-  padding: 10px 20px;
-  background-color: red;
-  color: #fff;
+.disconnectButton {
+  position: absolute;
+  background-color: #f44336; /* Red */
   border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
 }
-.disconnect-button:hover {
+.disconnectButton:hover {
   background-color: lightcoral;
 }
 
