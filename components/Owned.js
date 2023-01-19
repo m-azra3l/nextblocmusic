@@ -11,8 +11,6 @@ import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicM
 
 const inter = Inter({ subsets: ['latin'] })
 
-const { TabPane } = Tabs;
-
 export default function Owned () {
     const [mynfts, setmyNfts] = useState([])
     const [loadingState, setLoadingState] = useState('not-loaded')  
@@ -23,10 +21,7 @@ export default function Owned () {
     }, [])
 
     async function loadmyNFTs() {
-        const web3Modal = new Web3Modal({
-        network: "mainnet",
-        cacheProvider: true,
-        })
+        const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()

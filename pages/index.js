@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 
-import{marketplaceAddress} from '../config.js'
+import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -82,17 +82,21 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.grid}>
-          <div className={styles.songs}>
+          <div>
           {
             nfts.map((nft, i) => (
-              <div className={styles.card}>
-                <img src={nft.image} />
-                  <p>{nft.name}</p>
-                  <p>{nft.description}</p>
-                <div>
-                  <p>{nft.price} ETH</p>
-                  <button onClick={() => buyNft(nft)}>Buy</button>
-                  <button onClick={() => buyNft(nft)}>Play</button>
+              <div className={styles.mycard}>
+                <img className={style.cardimgtop} src={nft.image} />
+                <div className={style.cardbody}>
+                  <div classname={style.cardtitle}>
+                    <p className={style.cardtext}>{nft.name}</p>
+                    <p className={style.cardtext}>{nft.description}</p>
+                    <p className={style.cardtext}>{nft.price} ETH</p>
+                  </div>
+                  <div classname={style.cardbuttons}>                    
+                    <button className={style.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
+                    <button className={style.cardbutton} onClick={() => buyNft(nft)}>Play</button>
+                  </div>
                 </div>
               </div>
 

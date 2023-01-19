@@ -1,7 +1,5 @@
 import Web3Modal from 'web3modal'
 import { useEffect, useState } from 'react'
-import { PersistGate, Persist } from 'react-persist'
-import '../styles/Home.module.css'
 import styles from '@/styles/Home.module.css'
 import WalletConnectProvider from "@walletconnect/web3-provider"
 

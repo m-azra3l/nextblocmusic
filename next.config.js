@@ -6,5 +6,7 @@ const nextConfig = {
 module.exports = {
   env: {
       INFURA_ID: process.env.INFURA_ID,
+      IPFS_ID: process.env.IPFS_ID,
+      IPFS_KEY: process.env.IPFS_KEY,
   },
 }

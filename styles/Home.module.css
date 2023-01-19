@@ -1,3 +1,4 @@
+
 .main {
   display: flex;
   flex-direction: column;
@@ -60,7 +61,7 @@
 .cardbutton {
   flex: 1;
   padding: 10px 20px;
-  background-color: greenyellow;
+  background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -69,6 +70,21 @@
   transition: all 0.2s ease-in-out;
 }
 .cardbutton:hover {
+  background-color: #0069d9;
+}
+
+.cardplaybutton {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+.cardplaybutton:hover {
   background-color: #555;
 }
 
@@ -89,9 +105,7 @@
 }
 
 .formgroup input[type="file"]::before {
-  content: "Select File";
   display: inline-block;
-  background: #007bff;
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
@@ -124,7 +138,6 @@
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 1rem;
   cursor: pointer;
@@ -132,7 +145,7 @@
 }
 
 .btnCancel:hover {
-  background-color: #0069d9;
+  background-color: rosybrown;
 }
 
 .buttonContainer {
