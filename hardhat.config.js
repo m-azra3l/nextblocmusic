@@ -11,12 +11,12 @@ module.exports = {
     mumbai: {
       // Infura
       url: process.env.MUMBAI_INFURA,
-      accounts: [process.env.PRIVATE_INFURA]
+      accounts: [process.env.PRIVATE_KEY]
     },
     matic: {
       // Infura
       url: process.env.MATIC_INFURA,
-      accounts: [process.env.PRIVATE_INFURA]
+      accounts: [process.env.PRIVATE_KEY]
     }
   },
   solidity: {
