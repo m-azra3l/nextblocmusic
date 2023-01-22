@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-key */
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
@@ -10,6 +11,7 @@ import Web3Modal from 'web3modal'
 import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
+const infura_mumbai = process.env.MUMBAI_INFURA
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -20,7 +22,9 @@ export default function Home() {
   }, [])
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
-    const provider = new ethers.providers.JsonRpcProvider()
+    //const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
+    //const provider = new ethers.providers.JsonRpcProvider(infura_mumbai)
+    const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
     const contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, provider)
     const data = await contract.fetchMarketItems()
 
@@ -63,34 +67,58 @@ export default function Home() {
     await transaction.wait()
     loadNFTs()
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1>No items in marketplace</h1>)
+  if (loadingState === 'loaded' && !nfts.length) return (
+    
+    <div className={styles.centers}>
+      <br/>
+      <center>
+      <h1>Welcome to blocMusic</h1>
+      <div className={styles.center}>
+        <p>Putting control in the hands of the creator, home of creators supporting their works</p>
+        <div className={styles.thirteen}>
+          <Image
+            src="/images/blocmusic.png"
+            alt="13"
+            width={150}
+            height={120}
+            priority
+          />
+        </div>
+      </div>
+      
+      <h2>No items in marketplace</h2>
+    </center>
+  </div>
+  )
   return (
     <>
         <div className={styles.centers}>
           <br/>
-          <h1>Welcome to blocMusic</h1>
-          <div className={styles.center}>
-            <p>Putting control in the hands of the creator, home of creators supporting their works</p>
-            <div className={styles.thirteen}>
-              <Image
-                src="/images/blocmusic.png"
-                alt="13"
-                width={150}
-                height={120}
-                priority
-              />
-            </div>
-          </div>
+            <center>
+              <h1>Welcome to blocMusic</h1>
+              <div className={styles.center}>
+                <p>Putting control in the hands of the creator, home of creators supporting their works</p>
+                <div className={styles.thirteen}>
+                  <Image
+                    src="/images/blocmusic.png"
+                    alt="13"
+                    width={150}
+                    height={120}
+                    priority
+                  />
+                </div>
+              </div>
+          </center>
         </div>
         <div className={styles.grid}>
           <div>
           {
             nfts.map((nft, i) => (
               <div className={styles.mycard}>
-                <img className={styles.cardimgtop} src={nft.image} />
+                <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                 <div className={style.cardbody}>
                   <div classname={style.cardtitle}>
-                    <p className={style.cardtext}>{nft.name}</p>
+                    <p className={style.cardtext}>{nft.title}</p>
                     <p className={style.cardtext}>{nft.description}</p>
                     <p className={style.cardtext}>{nft.price} ETH</p>
                   </div>
