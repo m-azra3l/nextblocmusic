@@ -8,14 +8,10 @@ module.exports = {
       chainId: 1337
     },
     
-    mumbai: {
+    polygon_mumbai: {
       // Infura
-      url: process.env.MUMBAI_INFURA,
-      accounts: [process.env.PRIVATE_KEY]
-    },
-    matic: {
-      // Infura
-      url: process.env.MATIC_INFURA,
+      //url: process.env.MUMBAI_INFURA,
+      url: "https://rpc-mumbai.maticvigil.com",
       accounts: [process.env.PRIVATE_KEY]
     }
   },

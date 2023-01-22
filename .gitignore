@@ -41,3 +41,4 @@ typechain
 typechain-types
 
 yarn.lock
+/.next

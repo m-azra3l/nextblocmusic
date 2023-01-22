@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -74,8 +75,8 @@ export default function Home() {
               <Image
                 src="/images/blocmusic.png"
                 alt="13"
-                width={40}
-                height={31}
+                width={150}
+                height={120}
                 priority
               />
             </div>
@@ -86,7 +87,7 @@ export default function Home() {
           {
             nfts.map((nft, i) => (
               <div className={styles.mycard}>
-                <img className={style.cardimgtop} src={nft.image} />
+                <img className={styles.cardimgtop} src={nft.image} />
                 <div className={style.cardbody}>
                   <div classname={style.cardtitle}>
                     <p className={style.cardtext}>{nft.name}</p>
