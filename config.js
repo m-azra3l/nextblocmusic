@@ -1,5 +1,5 @@
 
-    export const marketplaceAddress = "0x99cc9E337cee0b9c67a68c49a81d22dCD999bD58"
-    export const nftAddress = "0x51a0590Bf7886C3B56279bbd91a51983dF71A1CA"
+    export const marketplaceAddress = "0xa33E8DAeE7a10f086E45a03CDeab1063E8221497"
+    export const nftAddress = "0x9E19bB2555552853dF9B883BEaCfa6E5A309429e"
 
   
