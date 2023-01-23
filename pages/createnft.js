@@ -25,6 +25,15 @@ const client = ipfsHttpClient({
     },
 });
 
+const myclient = ipfsHttpClient({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+});
+
 const inter = Inter({ subsets: ['latin'] })
 
 export default function CreateNFT() {
@@ -68,7 +77,6 @@ export default function CreateNFT() {
                 alert("Song uploaded successfully")
             }
             const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            alert(url)
             if (e.target.name === 'image') {                    
                 setImageUrl(url)
             } else if (e.target.name === 'song') {                    
@@ -88,14 +96,15 @@ export default function CreateNFT() {
         })
         alert(data)
         try {
-          const added = await client.add(data)
+          const added = await myclient.add(data)
             const url = `https://ipfs.infura.io/ipfs/${added.path}`
             alert(url)
             /* after file is uploaded to IPFS, return the URL to use it in the transaction */
             return url
         } catch (error) {
-            console.log('Error uploading file: ', error)
+            console.log('Error uploading file: ', error)            
             alert('Error uploading file: ', error)
+            return
         }  
       }
     
@@ -114,7 +123,7 @@ export default function CreateNFT() {
         let transaction = await contract.createToken(url, price, { value: listingPrice })
         await transaction.wait()
        
-        router.push('/dashboard')
+        router.push('/listed')
       }
       return(
         <>

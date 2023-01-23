@@ -170,6 +170,13 @@
   transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
 }
 
+.mycontainer {
+  position: absolute; /* Position the container at the top center of the page */
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the container horizontally and vertically */
+}
+
 .connectButton {
   background-color: #4CAF50; 
   border: none;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconContext } from 'react-icons'
-import { FaHome, FaWallet, FaFolder, FaList, FaMoneyBillWave } from 'react-icons/fa'
+import { FaHome, FaFolder, FaList, FaMoneyBillWave } from 'react-icons/fa'
 import NavLink from './NavLink'
 import styles from '@/styles/Home.module.css'
 
@@ -25,25 +25,18 @@ export default function Navbar (){
               </span></li></ul>
               <ul><li><span>
                   <IconContext.Provider value={{ color: 'white' }}>
-                    <NavLink href="/collection">
+                    <NavLink href="/listed">
                       <FaList title='Listed Items'/>    
                     </NavLink>
                   </IconContext.Provider>    
               </span></li></ul>
               <ul><li><span>
                   <IconContext.Provider value={{ color: 'white' }}>
-                    <NavLink href="/collection">
+                    <NavLink href="/sold">
                       <FaMoneyBillWave title='Sold Items'/>    
                     </NavLink>
                   </IconContext.Provider>    
               </span></li></ul>
-              <ul><li><span>
-                  <IconContext.Provider value={{ color: 'white' }}>
-                    <NavLink href="/wallet">
-                      <FaWallet title='Wallet' />    
-                    </NavLink>
-                  </IconContext.Provider>    
-              </span></li></ul> 
             </nav>
           </p>
         </div>

@@ -53,18 +53,23 @@ export default function Collection () {
     setmyNfts(items)
     setLoadingState('loaded')
   }
-  
+
   function listNFT(nft) {
       console.log('nft:', nft)
       router.push(`/resell?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
 
-  if (loadingState === 'loaded' && !mynfts.length) return (<h1>No NFTs owned</h1>)
+  if (loadingState === 'loaded' && !mynfts.length) 
+  return (
+    <div className={styles.mycontainer}>
+      <h2>No NFTs owned</h2>
+      <button onClick={handleClick} className={styles.connectButton}>CreateNFT</button>
+    </div>
+    )
   return(
     <>
-      <div>
-        
-        <button onClick={handleClick} className={styles.btn}>CreateNFT</button>
+      <div className={styles.mycontainer}>        
+          <button onClick={handleClick} className={styles.connectButton}>CreateNFT</button>
           <div>
           </div>      
       </div> 

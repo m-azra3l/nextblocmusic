@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { Inter } from '@next/font/google'
-import '../styles/Home.module.css'
+import styles from '@/styles/Home.module.css'
 import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
@@ -47,10 +47,15 @@ export default function Sold () {
     soldsetLoadingState('loaded') 
   }
 
-    if (soldloadingState === 'loaded' && !soldnfts.length) return (<h1>No NFTs sold</h1>)
+    if (soldloadingState === 'loaded' && !soldnfts.length) 
+    return (
+        <div className={styles.mycontainer}> 
+            <h2>No NFTs sold</h2>
+        </div>
+    )
     return(
         <>
-            <div>
+            <div clasName={styles.mycontainer}>
             
             </div>
             

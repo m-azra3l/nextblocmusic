@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { Inter } from '@next/font/google'
-import  '@/styles/Home.module.css'
+import styles from '@/styles/Home.module.css'
 import{marketplaceAddress} from '../config'
 import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
 
@@ -52,11 +52,16 @@ export default function Listed () {
 
  
 
-    if (listloadingState === 'loaded' && !listednfts.length) return (<h1>No NFTs listed</h1>)
-return(
-  <>
-    <div>
-    </div>
-  </>
-)
+    if (listloadingState === 'loaded' && !listednfts.length) 
+    return (
+        <div className={styles.mycontainer}> 
+            <h2>No NFTs listed</h2>
+        </div>
+    )
+    return(
+    <>
+        <div className={styles.mycontainer}>
+        </div>
+    </>
+    )
 }

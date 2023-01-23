@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-import '../styles/Home.module.css'
+import styles from '@/styles/Home.module.css'
 
 import {
   marketplaceAddress
@@ -46,7 +46,7 @@ export default function Resell() {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className={styles.buttonContainer}>
       <form>
         <div className='form-group'>
             <input
