@@ -10,6 +10,7 @@ import Web3Modal from 'web3modal'
 import{marketplaceAddress,nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import {library} from '../helpers/storeLibrary'
 
 const infura_mumbai = process.env.MUMBAI_INFURA
 const inter = Inter({ subsets: ['latin'] })
@@ -33,23 +34,41 @@ export default function Home() {
     *  map over items returned from smart contract and format 
     *  them as well as fetch their token metadata
     */
-    const items = await Promise.all(data.map(async i => {      
-      const tokenUri = await tokenContract.tokenURI(i.tokenId)
-      const meta = await axios.get(tokenUri)
+      
+    // const items = await Promise.all(data.map(async i => {      
+    //   const tokenUri = await tokenContract.tokenURI(i.tokenId)
+    //   const meta = await axios.get(tokenUri)
+    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+    //   let item = {
+    //     price,
+    //       tokenId: i.tokenId.toNumber(),
+    //       seller: i.seller,
+    //       owner: i.owner,
+    //       sold: i.sold,
+    //       title: meta.data.title,
+    //       description: meta.data.description,
+    //       image: meta.data.imageUrl,
+    //       song: meta.data.songUrl
+    //   }
+    //   return item
+    // }))
+    const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
+      let item = library.find(x => x.tokenId === i.tokenId);
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let item = {
+      item = {
         price,
-          tokenId: i.tokenId.toNumber(),
-          seller: i.seller,
-          owner: i.owner,
-          sold: i.sold,
-          title: meta.data.title,
-          description: meta.data.description,
-          image: meta.data.image,
-          song: meta.data.songurl
+        tokenId: i.tokenId.toNumber(),
+        seller: i.seller,
+        owner: i.owner,
+        sold: i.sold,
+        title: item.title,
+        description: item.description,
+        image: item.imageUrl,
+        song: item.songUrl
       }
       return item
     }))
+
     setNfts(items)
     setLoadingState('loaded') 
   }

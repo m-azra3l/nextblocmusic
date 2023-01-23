@@ -9,6 +9,7 @@ import Web3Modal from 'web3modal'
 import{marketplaceAddress, nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
+import {library} from '../helpers/storeLibrary'
 
 const projectId = process.env.IPFS_ID;   // <---------- your Infura Project ID
 
@@ -41,8 +42,14 @@ export default function CreateNFT() {
     const [progress, setProgress] = useState(0);
     const [imageUrl, setImageUrl] = useState(null)  
     const [songUrl, setSongUrl] = useState(null)
+
     const [formInput, updateFormInput] = useState({ title: "", price: "", description: "" })
     const router = useRouter()
+
+    const addToLibrary = newItem => {
+        library.push(newItem);
+    };
+
     const handleClick = () => {
         router.back()
     }
@@ -88,29 +95,28 @@ export default function CreateNFT() {
         }
       }
      
-      async function uploadToIPFS() {
-        const { title, description, price } = formInput
-        if (!title || !description || !price || !imageUrl || !songUrl) return
-        /* first, upload to IPFS */
-        const data = JSON.stringify({
-          title, description, image: imageUrl, song: songUrl
-        })
-        alert(data)
-        try {
-          const added = await client.add(data)
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            alert('File uploaded succesfully')
-            /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-            listNFTForSale(url)
-        } catch (error) {
-            console.log('Error uploading file: ', error)            
-            alert('Error uploading file: ', error)
-            return
-        }  
-      }
+    //   async function uploadToIPFS() {
+    //     const { title, description, price } = formInput
+    //     if (!title || !description || !price || !imageUrl || !songUrl) return
+    //     /* first, upload to IPFS */
+    //     const data = JSON.stringify({
+    //       title, description, image: imageUrl, song: songUrl
+    //     })
+    //     alert(data)
+    //     try {
+    //       const added = await client.add(data)
+    //         const url = `https://ipfs.infura.io/ipfs/${added.path}`
+    //         alert('File uploaded succesfully')
+    //         /* after file is uploaded to IPFS, return the URL to use it in the transaction */
+    //         listNFTForSale(url)
+    //     } catch (error) {
+    //         console.log('Error uploading file: ', error)            
+    //         alert('Error uploading file: ', error)
+    //         return
+    //     }  
+    //   }
     
-      async function listNFTForSale(url) {
-        //const url = await uploadToIPFS()
+      async function listNFTForSale() {
 
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -118,7 +124,7 @@ export default function CreateNFT() {
         const signer = provider.getSigner()
 
         let contract = new ethers.Contract(nftAddress, NFT.abi, signer);
-        let transaction = await contract.createToken(url);
+        let transaction = await contract.createToken();
         let tx = await transaction.wait();
         let event = tx.events[0];
         let value = event.args[2];
@@ -130,6 +136,17 @@ export default function CreateNFT() {
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
         transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
+        const { title, description } = formInput;
+        if (!title || !description || !price || !imageUrl || !songUrl) return;
+
+        // Add the new item to the library array
+        addToLibrary({
+            tokenId: tokenId,
+            title: title,
+            description: description,
+            image: imageUrl,
+            song: songUrl
+        });
         await transaction.wait()
         alert('Token created succesfully')        
         setLoadingCreate(false)
@@ -181,7 +198,7 @@ export default function CreateNFT() {
                     <div className={styles.progressbar} style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className={styles.cardbuttons}>
-                    <button onClick={uploadToIPFS} className={styles.btn}>Create</button>
+                    <button onClick={listNFTForSale} className={styles.btn}>Create</button>
                     <button onClick={handleClick} className={styles.btnCancel}>Cancel</button>
                 </div>
             </form>

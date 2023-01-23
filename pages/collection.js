@@ -32,25 +32,23 @@ export default function Collection () {
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);  
     const data = await marketplaceContract.fetchMyNFTs()
 
-    const items = await Promise.all(data.map(async i => {
-        const tokenURI = await tokenContract.tokenURI(i.tokenId)
-        const meta = await axios.get(tokenURI)
-        let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-        let item = {
-            price,
-            tokenId: i.tokenId.toNumber(),
-            seller: i.seller,
-            owner: i.owner,
-            title: meta.data.title,        
-            description: meta.data.description,
-            image: meta.data.image,
-            song: meta.data.songurl,
-            tokenURI
-        }
-        return item
-      }))
-      setmyNfts(items)
-      setLoadingState('loaded')
+    const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
+      let item = library.find(x => x.tokenId === i.tokenId);
+      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+      item = {
+        price,
+        tokenId: i.tokenId.toNumber(),
+        seller: i.seller,
+        owner: i.owner,
+        title: item.title,
+        description: item.description,
+        image: item.imageUrl,
+        song: item.songUrl
+      }
+      return item
+    }))
+    setmyNfts(items)
+    setLoadingState('loaded')
   }
 
   function listNFT(nft) {
