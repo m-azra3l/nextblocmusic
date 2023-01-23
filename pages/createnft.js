@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styles from '@/styles/Home.module.css'
 import { Inter } from '@next/font/google'
+import { Buffer } from 'buffer'
 import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
@@ -27,6 +28,7 @@ const client = ipfsHttpClient({
 const inter = Inter({ subsets: ['latin'] })
 
 export default function CreateNFT() {
+    const [progress, setProgress] = useState(0);
     const [imageUrl, setImageUrl] = useState(null)  
     const [songUrl, setSongUrl] = useState(null)
     const [formInput, updateFormInput] = useState({ title: '', price: '', description: '' })
@@ -38,24 +40,45 @@ export default function CreateNFT() {
     async function onChange(e) {
         const file = e.target.files[0]
         try {
-            const added = await client.add(
-                file,
-                {
-                    progress: (prog) => console.log(`received: ${prog}`)
-                }
-            )
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            let added
             if (e.target.name === 'image') {
+                alert("Please wait while song image cover upload")
+                added = await client.add(
+                    file,
+                    {   
+                        progress: (prog) => {
+                            console.log(`received: ${prog}`);
+                            setProgress(Math.round((prog / file.size) * 100));
+                        }
+                    }
+                )                    
+                alert("Cover uploaded successfully")
+            }
+            else if (e.target.name === 'song') {
+                alert("Please wait while song upload")
+                added = await client.add(
+                    file,
+                    {   
+                        progress: (prog) => {
+                            console.log(`received: ${prog}`);
+                            setProgress(Math.round((prog / file.size) * 100));
+                        }
+                    }
+                )                    
+                alert("Song uploaded successfully")
+            }
+            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            alert(url)
+            if (e.target.name === 'image') {                    
                 setImageUrl(url)
-            } else if (e.target.name === 'song') {
+            } else if (e.target.name === 'song') {                    
                 setSongUrl(url)
             }
         } catch (error) {
             console.log('Error uploading file: ', error)
         }
       }
-    
-    
+     
       async function uploadToIPFS() {
         const { title, description, price } = formInput
         if (!title || !description || !price || !imageUrl || !songUrl) return
@@ -63,13 +86,16 @@ export default function CreateNFT() {
         const data = JSON.stringify({
           title, description, image: imageUrl, song: songUrl
         })
+        alert(data)
         try {
           const added = await client.add(data)
-          const url = `https://ipfs.infura.io/ipfs/${added.path}`
-          /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-          return url
+            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            alert(url)
+            /* after file is uploaded to IPFS, return the URL to use it in the transaction */
+            return url
         } catch (error) {
-          console.log('Error uploading file: ', error)
+            console.log('Error uploading file: ', error)
+            alert('Error uploading file: ', error)
         }  
       }
     
@@ -113,20 +139,30 @@ export default function CreateNFT() {
                     />
                 </div>
                 <div className={styles.formgroup}>
-                <input
-                    type="file"
-                    name="image"
-                    onChange={onChange}
-                />
+                    <p>Select Cover</p>
+                    <input
+                        type="file"
+                        name="image"
+                        accept=".jpg, .png"
+                        placeholder="Select Cover"                        
+                        onChange={onChange}
+                    />
                 </div>
                 <div className={styles.formgroup}>
-                <input
-                    type="file"
-                    name="song"
-                    onChange={onChange}
-                />
+                    <p>Select Song</p>
+                    <input
+                        type="file"
+                        accept=".mp3, .wav"
+                        name="song"
+                        placeholder='Select Song'
+                        onChange={onChange}
+                    />
+                </div>
+                <div className={styles.formgroup}>
+                    <div className={styles.progressbar} style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className={styles.cardbuttons}>
+                <button onClick={uploadToIPFS} className={styles.btn}>Upload</button>
                     <button onClick={listNFTForSale} className={styles.btn}>Create</button>
                     <button onClick={handleClick} className={styles.btnCancel}>Cancel</button>
                 </div>
