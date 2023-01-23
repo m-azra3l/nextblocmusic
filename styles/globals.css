@@ -104,7 +104,7 @@ nav {
   min-width: 350px;
   min-height: 80px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   border-radius: 10px;
   padding: 0 15px;
   background: black;
