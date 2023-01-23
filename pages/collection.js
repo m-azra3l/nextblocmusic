@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Collection () {
      
-  const [sold, setSold] = useState([])
+  const [mynfts, setmyNfts] = useState([]) 
   const [loadingState, setLoadingState] = useState('not-loaded')  
   const router = useRouter()
   

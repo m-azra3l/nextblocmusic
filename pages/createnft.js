@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
 import{marketplaceAddress, nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
+import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 
 const projectId = process.env.IPFS_ID;   // <---------- your Infura Project ID
 
@@ -96,9 +97,9 @@ export default function CreateNFT() {
         })
         alert(data)
         try {
-          const added = await myclient.add(data)
+          const added = await client.add(data)
             const url = `https://ipfs.infura.io/ipfs/${added.path}`
-            alert(url)
+            alert('File uploaded succesfully')
             /* after file is uploaded to IPFS, return the URL to use it in the transaction */
             listNFTForSale(url)
         } catch (error) {
@@ -130,7 +131,7 @@ export default function CreateNFT() {
         listingPrice = listingPrice.toString()
         transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
         await transaction.wait()
-        
+        alert('Token created succesfully')        
         setLoadingCreate(false)
         router.push('/listed')        
       }

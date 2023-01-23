@@ -25,7 +25,7 @@ export default function Home() {
     const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
     //const provider = new ethers.providers.JsonRpcProvider(infura_mumbai)
     //const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
-    const marketplaceContract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
+    const marketplaceContract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, provider)
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);    
     const data = await marketplaceContract.fetchMarketItems();
 
