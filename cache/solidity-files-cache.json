@@ -515,8 +515,8 @@
       ]
     },
     "C:\\Users\\DELL\\Documents\\GitHub\\nextblocmusic\\contracts\\MarketPlace.sol": {
-      "lastModificationDate": 1674479433262,
-      "contentHash": "5b19546318b098c7350308314d771b8b",
+      "lastModificationDate": 1674507260453,
+      "contentHash": "96dff810eac56678e649fae916853809",
       "sourceName": "contracts/MarketPlace.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -556,8 +556,8 @@
       ]
     },
     "C:\\Users\\DELL\\Documents\\GitHub\\nextblocmusic\\contracts\\NFT.sol": {
-      "lastModificationDate": 1674490645398,
-      "contentHash": "d696973ec0c6385e62903eb3dc846392",
+      "lastModificationDate": 1674506846877,
+      "contentHash": "c1064738a773ef5b2f40a73b469b5bed",
       "sourceName": "contracts/NFT.sol",
       "solcConfig": {
         "version": "0.8.17",

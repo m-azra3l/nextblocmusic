@@ -32,18 +32,34 @@ export default function Collection () {
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);  
     const data = await marketplaceContract.fetchMyNFTs()
 
-    const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
-      let item = library.find(x => x.tokenId === i.tokenId);
+    // const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
+    //   let item = library.find(x => x.tokenId === i.tokenId);
+    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+    //   item = {
+    //     price,
+    //     tokenId: i.tokenId.toNumber(),
+    //     seller: i.seller,
+    //     owner: i.owner,
+    //     title: item.title,
+    //     description: item.description,
+    //     image: item.imageUrl,
+    //     song: item.songUrl
+    //   }
+    //   return item
+    // }))
+    const items = await Promise.all(data.map(async i => {      
+      const tokenUri = await tokenContract.tokenURI(i.tokenId)
+      const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      item = {
+      let item = {
         price,
-        tokenId: i.tokenId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
-        title: item.title,
-        description: item.description,
-        image: item.imageUrl,
-        song: item.songUrl
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          title: meta.data.title,
+          description: meta.data.description,
+          image: meta.data.imageUrl,
+          song: meta.data.songUrl
       }
       return item
     }))

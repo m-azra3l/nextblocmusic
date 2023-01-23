@@ -199,11 +199,6 @@ contract MarketPlace is ReentrancyGuard {
     return items;
   }
 
-    function fetchSpecificItem(uint256 providedId) public view returns (uint256 value) {
-        uint value = 1;
-        return value;
-   }
-
     function fetchMyNFTs() public view returns (MarketItem[] memory) {
     uint totalItemCount = _itemIds.current();
     uint itemCount = 0;

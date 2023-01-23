@@ -44,11 +44,15 @@ export default function CreateNFT() {
     const [songUrl, setSongUrl] = useState(null)
 
     const [formInput, updateFormInput] = useState({ title: "", price: "", description: "" })
+    const [loadingCreate, setLoadingCreate] = useState(false);
     const router = useRouter()
 
-    const addToLibrary = newItem => {
-        library.push(newItem);
-    };
+    // const [library, setLibrary] = useState([]);
+
+    // const addToLibrary = newItem => {
+    //     setLibrary([...library, newItem]);
+    // };
+
 
     const handleClick = () => {
         router.back()
@@ -84,7 +88,7 @@ export default function CreateNFT() {
                 )                    
                 alert("Song uploaded successfully")
             }
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            const url = `https://ipfs.io/ipfs/${added.path}`
             if (e.target.name === 'image') {                    
                 setImageUrl(url)
             } else if (e.target.name === 'song') {                    
@@ -95,28 +99,28 @@ export default function CreateNFT() {
         }
       }
      
-    //   async function uploadToIPFS() {
-    //     const { title, description, price } = formInput
-    //     if (!title || !description || !price || !imageUrl || !songUrl) return
-    //     /* first, upload to IPFS */
-    //     const data = JSON.stringify({
-    //       title, description, image: imageUrl, song: songUrl
-    //     })
-    //     alert(data)
-    //     try {
-    //       const added = await client.add(data)
-    //         const url = `https://ipfs.infura.io/ipfs/${added.path}`
-    //         alert('File uploaded succesfully')
-    //         /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-    //         listNFTForSale(url)
-    //     } catch (error) {
-    //         console.log('Error uploading file: ', error)            
-    //         alert('Error uploading file: ', error)
-    //         return
-    //     }  
-    //   }
+      async function uploadToIPFS() {
+        const { title, description, price } = formInput
+        if (!title || !description || !price || !imageUrl || !songUrl) return
+        /* first, upload to IPFS */
+        const data = JSON.stringify({
+          title, description, image: imageUrl, song: songUrl
+        })
+        alert(data)
+        try {
+          const added = await client.add(data)
+            const url = `https://ipfs.io/ipfs/${added.path}`
+            alert('File uploaded succesfully')
+            /* after file is uploaded to IPFS, return the URL to use it in the transaction */
+            listNFTForSale(url)
+        } catch (error) {
+            console.log('Error uploading file: ', error)            
+            alert('Error uploading file: ', error)
+            return
+        }  
+      }
     
-      async function listNFTForSale() {
+      async function listNFTForSale(url) {
 
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -124,7 +128,7 @@ export default function CreateNFT() {
         const signer = provider.getSigner()
 
         let contract = new ethers.Contract(nftAddress, NFT.abi, signer);
-        let transaction = await contract.createToken();
+        let transaction = await contract.createToken(url);
         let tx = await transaction.wait();
         let event = tx.events[0];
         let value = event.args[2];
@@ -136,21 +140,21 @@ export default function CreateNFT() {
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
         transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
-        const { title, description } = formInput;
-        if (!title || !description || !price || !imageUrl || !songUrl) return;
+        // const { title, description } = formInput;
+        // if (!title || !description || !price || !imageUrl || !songUrl) return;
 
-        // Add the new item to the library array
-        addToLibrary({
-            tokenId: tokenId,
-            title: title,
-            description: description,
-            image: imageUrl,
-            song: songUrl
-        });
+        // // Add the new item to the library array
+        // addToLibrary({
+        //     tokenId: tokenId,
+        //     title: title,
+        //     description: description,
+        //     image: imageUrl,
+        //     song: songUrl
+        // });
         await transaction.wait()
         alert('Token created succesfully')        
         setLoadingCreate(false)
-        router.push('/listed')        
+        router.push('/dashboard')        
       }
       return(
         <>
@@ -198,7 +202,16 @@ export default function CreateNFT() {
                     <div className={styles.progressbar} style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className={styles.cardbuttons}>
-                    <button onClick={listNFTForSale} className={styles.btn}>Create</button>
+                    <button onClick={(event) => {event.preventDefault();uploadToIPFS()}} className={styles.btn}>Create 
+                    {loadingCreate ? (<img
+                        style={{ width: "30px", height: "30px", marginLeft: "20px" }}
+                        src={
+                            "https://icons8.com/preloaders/preloaders/865/Ethereum%20logo%20revolving.gif"
+                        }
+                        alt="loading..."
+                        />
+                    ) : null}
+                    </button>
                     <button onClick={handleClick} className={styles.btnCancel}>Cancel</button>
                 </div>
             </form>
