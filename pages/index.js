@@ -7,9 +7,9 @@ import {ethers} from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
-
-import{marketplaceAddress} from '../config'
-import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
+import{marketplaceAddress,nftAddress} from '../config'
+import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
+import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 
 const infura_mumbai = process.env.MUMBAI_INFURA
 const inter = Inter({ subsets: ['latin'] })
@@ -25,26 +25,28 @@ export default function Home() {
     const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
     //const provider = new ethers.providers.JsonRpcProvider(infura_mumbai)
     //const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545/')
-    const contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, provider)
-    const data = await contract.fetchMarketItems()
+    const marketplaceContract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
+    const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);    
+    const data = await marketplaceContract.fetchMarketItems();
 
     /*
     *  map over items returned from smart contract and format 
     *  them as well as fetch their token metadata
     */
-    const items = await Promise.all(data.map(async i => {
-      const tokenUri = await contract.tokenURI(i.tokenId)
+    const items = await Promise.all(data.map(async i => {      
+      const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
-        tokenId: i.tokenId.toNumber(),
-        seller: i.seller,
-        owner: i.owner,
-        image: meta.data.imageurl,        
-        song: meta.data.songurl,
-        title: meta.data.name,
-        description: meta.data.description,
+          tokenId: i.tokenId.toNumber(),
+          seller: i.seller,
+          owner: i.owner,
+          sold: i.sold,
+          title: meta.data.title,
+          description: meta.data.description,
+          image: meta.data.image,
+          song: meta.data.songurl
       }
       return item
     }))
@@ -57,7 +59,7 @@ export default function Home() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(marketplaceAddress, MusicMarketplace.abi, signer)
+    const contract = new ethers.Contract(marketplaceAddress, Marketplace.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   

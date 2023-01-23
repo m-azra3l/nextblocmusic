@@ -6,8 +6,8 @@ import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import Web3Modal from 'web3modal'
-import{marketplaceAddress} from '../config'
-import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
+import{marketplaceAddress, nftAddress} from '../config'
+import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 
 const projectId = process.env.IPFS_ID;   // <---------- your Infura Project ID
 
@@ -40,7 +40,7 @@ export default function CreateNFT() {
     const [progress, setProgress] = useState(0);
     const [imageUrl, setImageUrl] = useState(null)  
     const [songUrl, setSongUrl] = useState(null)
-    const [formInput, updateFormInput] = useState({ title: '', price: '', description: '' })
+    const [formInput, updateFormInput] = useState({ title: "", price: "", description: "" })
     const router = useRouter()
     const handleClick = () => {
         router.back()
@@ -100,7 +100,7 @@ export default function CreateNFT() {
             const url = `https://ipfs.infura.io/ipfs/${added.path}`
             alert(url)
             /* after file is uploaded to IPFS, return the URL to use it in the transaction */
-            return url
+            listNFTForSale(url)
         } catch (error) {
             console.log('Error uploading file: ', error)            
             alert('Error uploading file: ', error)
@@ -108,22 +108,31 @@ export default function CreateNFT() {
         }  
       }
     
-      async function listNFTForSale() {
-        const url = await uploadToIPFS()
+      async function listNFTForSale(url) {
+        //const url = await uploadToIPFS()
+
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
         const provider = new ethers.providers.Web3Provider(connection)
         const signer = provider.getSigner()
+
+        let contract = new ethers.Contract(nftAddress, NFT.abi, signer);
+        let transaction = await contract.createToken(url);
+        let tx = await transaction.wait();
+        let event = tx.events[0];
+        let value = event.args[2];
+        let tokenId = value.toNumber();
     
         /* next, create the item */
         const price = ethers.utils.parseUnits(formInput.price, 'ether')
-        let contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, signer)
+        contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
-        let transaction = await contract.createToken(url, price, { value: listingPrice })
+        transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
         await transaction.wait()
-       
-        router.push('/listed')
+        
+        setLoadingCreate(false)
+        router.push('/listed')        
       }
       return(
         <>
@@ -171,8 +180,7 @@ export default function CreateNFT() {
                     <div className={styles.progressbar} style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className={styles.cardbuttons}>
-                <button onClick={uploadToIPFS} className={styles.btn}>Upload</button>
-                    <button onClick={listNFTForSale} className={styles.btn}>Create</button>
+                    <button onClick={uploadToIPFS} className={styles.btn}>Create</button>
                     <button onClick={handleClick} className={styles.btnCancel}>Cancel</button>
                 </div>
             </form>

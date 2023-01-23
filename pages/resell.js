@@ -9,7 +9,7 @@ import {
   marketplaceAddress
 } from '../config'
 
-import MusicMarketPlace from '../artifacts/contracts/MusicMarketPlace.sol/MusicMarketPlace.json'
+import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 
 export default function Resell() {
   const [formInput, updateFormInput] = useState({ price: '', image: '' })
@@ -35,14 +35,14 @@ export default function Resell() {
     const signer = provider.getSigner()
 
     const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
-    let contract = new ethers.Contract(marketplaceAddress, MusicMarketPlace.abi, signer)
+    let contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
 
     listingPrice = listingPrice.toString()
     let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
     await transaction.wait()
    
-    router.push('/dashboard')
+    router.push('/collection')
   }
 
   return (
