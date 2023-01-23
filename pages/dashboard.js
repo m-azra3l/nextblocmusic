@@ -53,9 +53,8 @@ export default function Dashboard () {
           tokenURI
       }
       return item
-    }))
-    const soldItems = items.filter((i) => i.sold);
-    setSold(soldItems);
+    }))   
+    setmyNfts(items);
     setLoadingState('loaded')
   }
 

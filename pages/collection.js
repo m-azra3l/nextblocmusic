@@ -1,7 +1,7 @@
 import React from "react"
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import{marketplaceAddress,nftaddress} from '../config'
+import{marketplaceAddress,nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import { ethers } from 'ethers'
@@ -29,7 +29,7 @@ export default function Collection () {
     const signer = provider.getSigner()
 
     const marketplaceContract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
-    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);  
+    const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);  
     const data = await marketplaceContract.fetchMyNFTs()
 
     const items = await Promise.all(data.map(async i => {

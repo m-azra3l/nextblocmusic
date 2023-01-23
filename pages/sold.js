@@ -11,9 +11,9 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Sold () {
+export default function Sold () {  
   
-  const [mynfts, setmyNfts] = useState([])
+  const [sold, setSold] = useState([]);
   const [loadingState, setLoadingState] = useState('not-loaded')  
 
   useEffect(() => {
@@ -53,11 +53,12 @@ export default function Sold () {
       }
       return item
     }))
-    setsoldNfts(items)
-    soldsetLoadingState('loaded') 
+    const soldItems = items.filter((i) => i.sold);
+    setSold(soldItems)
+    setLoadingState('loaded') 
   }
 
-    if (soldloadingState === 'loaded' && !soldnfts.length) 
+    if (loadingState === 'loaded' && !sold.length) 
     return (
         <div className={styles.mycontainer}> 
             <h2>No NFTs sold</h2>
