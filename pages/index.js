@@ -47,27 +47,11 @@ export default function Home() {
           sold: i.sold,
           title: meta.data.title,
           description: meta.data.description,
-          image: meta.data.imageUrl,
-          song: meta.data.songUrl
+          image: meta.data.image,
+          song: meta.data.song
       }
       return item
     }))
-    // const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
-    //   let item = library.find(x => x.tokenId === i.tokenId);
-    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-    //   item = {
-    //     price,
-    //     tokenId: i.tokenId.toNumber(),
-    //     seller: i.seller,
-    //     owner: i.owner,
-    //     sold: i.sold,
-    //     title: item.title,
-    //     description: item.description,
-    //     image: item.imageUrl,
-    //     song: item.songUrl
-    //   }
-    //   return item
-    // }))
 
     setNfts(items)
     setLoadingState('loaded') 
@@ -78,7 +62,7 @@ export default function Home() {
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const contract = new ethers.Contract(marketplaceAddress, Marketplace.abi, signer)
+    const contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
@@ -136,18 +120,20 @@ export default function Home() {
           {
             nfts.map((nft, i) => (
               <div className={styles.mycard}>
+                <center>
                 <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
-                <div className={style.cardbody}>
-                  <div classname={style.cardtitle}>
-                    <p className={style.cardtext}>{nft.title}</p>
-                    <p className={style.cardtext}>{nft.description}</p>
-                    <p className={style.cardtext}>{nft.price} ETH</p>
+                <div className={StyleSheet.cardbody}>
+                  <div className={styles.cardtitle}>
+                    <p className={styles.cardtext}>{nft.title}</p>
+                    <p className={styles.cardtext}>{nft.description}</p>
+                    <p className={styles.cardtext}>{nft.price} ETH</p>
                   </div>
-                  <div classname={style.cardbuttons}>                    
-                    <button className={style.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
-                    <button className={style.cardbutton} onClick={() => buyNft(nft)}>Play</button>
+                  <div classname={styles.cardbuttons}>                    
+                    <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
+                    <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Play</button>
                   </div>
                 </div>
+                </center>
               </div>
 
             ))

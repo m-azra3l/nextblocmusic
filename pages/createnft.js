@@ -9,7 +9,6 @@ import Web3Modal from 'web3modal'
 import{marketplaceAddress, nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import {library} from '../helpers/storeLibrary'
 
 const projectId = process.env.IPFS_ID;   // <---------- your Infura Project ID
 
@@ -46,13 +45,6 @@ export default function CreateNFT() {
     const [formInput, updateFormInput] = useState({ title: "", price: "", description: "" })
     const [loadingCreate, setLoadingCreate] = useState(false);
     const router = useRouter()
-
-    // const [library, setLibrary] = useState([]);
-
-    // const addToLibrary = newItem => {
-    //     setLibrary([...library, newItem]);
-    // };
-
 
     const handleClick = () => {
         router.back()
@@ -140,17 +132,7 @@ export default function CreateNFT() {
         let listingPrice = await contract.getListingPrice()
         listingPrice = listingPrice.toString()
         transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
-        // const { title, description } = formInput;
-        // if (!title || !description || !price || !imageUrl || !songUrl) return;
-
-        // // Add the new item to the library array
-        // addToLibrary({
-        //     tokenId: tokenId,
-        //     title: title,
-        //     description: description,
-        //     image: imageUrl,
-        //     song: songUrl
-        // });
+        
         await transaction.wait()
         alert('Token created succesfully')        
         setLoadingCreate(false)
