@@ -99,7 +99,7 @@ export default function Dashboard () {
                     <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
                   <div className={styles.cardbuttons}>                    
-                    <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
                     >
                       {playing ? (
                         <TbPlayerPause />

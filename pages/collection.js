@@ -98,7 +98,7 @@ export default function Collection () {
                   </div>
                   <div className={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => listNFT(nft)}>Resell</button>
-                    <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
                     >
                       {playing ? (
                         <TbPlayerPause />
