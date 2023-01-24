@@ -150,7 +150,7 @@ export default function CreateNFT() {
                 </div>
                 <div className={styles.formgroup}>
                     <input
-                    placeholder="Asset Price in Eth"
+                    placeholder="Asset Price in MATIC"
                     onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
                     />
                 </div>

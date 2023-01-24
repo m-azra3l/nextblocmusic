@@ -3,20 +3,33 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import { TbPlayerPlay, TbPlayerPause } from "react-icons/tb"
 import {ethers} from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import{marketplaceAddress,nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
-import {library} from '../helpers/storeLibrary'
 
 const infura_mumbai = process.env.MUMBAI_INFURA
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const audioRef = useRef(null);
   const [nfts, setNfts] = useState([])
+  const [playing, setPlay] = useState(false)
+
+  useEffect(() => {
+    if (playing) {
+      audioRef.current.play()
+    } else if (playing !== null && audioRef.current) {
+      audioRef.current.pause()
+    }
+  })
+
+
   const [loadingState, setLoadingState] = useState('not-loaded')
   useEffect(() => {
     loadNFTs()
@@ -66,7 +79,7 @@ export default function Home() {
 
     /* user will be prompted to pay the asking proces to complete the transaction */
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
-    const transaction = await contract.createMarketSale(nft.tokenId, {
+    const transaction = await contract.createMarketSale(nftAddress, nft.tokenId, {
       value: price
     })
     await transaction.wait()
@@ -119,23 +132,35 @@ export default function Home() {
           <div>
           {
             nfts.map((nft, i) => (
-              <div className={styles.mycard}>
+              <div className={styles.mycard} key={i}>
                 <center>
                 <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                 <div className={StyleSheet.cardbody}>
                   <div className={styles.cardtitle}>
                     <p className={styles.cardtext}>{nft.title}</p>
                     <p className={styles.cardtext}>{nft.description}</p>
-                    <p className={styles.cardtext}>{nft.price} ETH</p>
+                    <p className={styles.cardtext}>{nft.price} MATIC</p>
                   </div>
                   <div classname={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
-                    <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Play</button>
+                    <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                    >
+                      {playing ? (
+                        <TbPlayerPause />
+                      ) : (
+                        <TbPlayerPlay />
+                      )}
+                    </button>
+                    <audio 
+                      src={nft.song} 
+                      ref={audioRef}
+                      onEnded={() => setPlay(false)}
+                  />
                   </div>
                 </div>
                 </center>
               </div>
-
+              
             ))
           }
           </div>

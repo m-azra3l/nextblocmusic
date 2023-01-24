@@ -5,7 +5,8 @@ import{marketplaceAddress,nftAddress} from '../config'
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { TbPlayerPlay, TbPlayerPause } from "react-icons/tb"
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { useRouter } from 'next/router'
@@ -17,6 +18,17 @@ export default function Collection () {
   const [mynfts, setmyNfts] = useState([]) 
   const [loadingState, setLoadingState] = useState('not-loaded')  
   const router = useRouter()
+
+  const audioRef = useRef(null)
+  const [playing, setPlay] = useState(false)
+
+  useEffect(() => {
+    if (playing) {
+      audioRef.current.play()
+    } else if (playing !== null && audioRef.current) {
+      audioRef.current.pause()
+    }
+  })  
   
   useEffect(() => {
     loadmyNFTs()    
@@ -32,21 +44,6 @@ export default function Collection () {
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);  
     const data = await marketplaceContract.fetchMyNFTs()
 
-    // const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
-    //   let item = library.find(x => x.tokenId === i.tokenId);
-    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-    //   item = {
-    //     price,
-    //     tokenId: i.tokenId.toNumber(),
-    //     seller: i.seller,
-    //     owner: i.owner,
-    //     title: item.title,
-    //     description: item.description,
-    //     image: item.imageUrl,
-    //     song: item.songUrl
-    //   }
-    //   return item
-    // }))
     const items = await Promise.all(data.map(async i => {      
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
@@ -74,15 +71,52 @@ export default function Collection () {
 
   if (loadingState === 'loaded' && !mynfts.length) 
   return (
-    <div className={styles.mycontainer}>
-      <h2>No NFTs owned</h2>
+    <div className={styles.mycontainer}>      
+      <h1>Purchased NFTS</h1>
+      <h2>No NFTs Purchased</h2>
     </div>
     )
   return(
     <>
-      <div className={styles.mycontainer}>        
+      <div className={styles.mycontainer}>
+        <h1>Purchased NFTS</h1>        
+        <div className={styles.grid}>
           <div>
-          </div>      
+          {
+            mynfts.map((nft, i) => (
+              <div className={styles.mycard} key={i}>
+                <center>
+                <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
+                <div className={StyleSheet.cardbody}>
+                  <div className={styles.cardtitle}>
+                    <p className={styles.cardtext}>{nft.title}</p>
+                    <p className={styles.cardtext}>{nft.description}</p>
+                    <p className={styles.cardtext}>{nft.price} MATIC</p>
+                  </div>
+                  <div classname={styles.cardbuttons}>                    
+                    <button className={styles.cardbutton} onClick={() => listNFT(nft)}>Resell</button>
+                    <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                    >
+                      {playing ? (
+                        <TbPlayerPause />
+                      ) : (
+                        <TbPlayerPlay />
+                      )}
+                    </button>
+                    <audio 
+                      src={nft.song} 
+                      ref={audioRef}
+                      onEnded={() => setPlay(false)}
+                  />
+                  </div>
+                </div>
+                </center>
+              </div>
+              
+            ))
+          }
+          </div>
+        </div>     
       </div> 
     </>
   )

@@ -1,6 +1,7 @@
 import React from "react"
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import { TbPlayerPlay, TbPlayerPause } from "react-icons/tb"
 import axios from 'axios'
 import Web3Modal from 'web3modal'
 import { Inter } from '@next/font/google'
@@ -13,8 +14,19 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Sold () {  
   
-  const [sold, setSold] = useState([]);
-  const [loadingState, setLoadingState] = useState('not-loaded')  
+  const [sold, setSold] = useState([])
+  const [nfts, setNfts] = useState([])
+  const [loadingState, setLoadingState] = useState('not-loaded')
+  const audioRef = useRef(null)
+  const [playing, setPlay] = useState(false)
+
+  useEffect(() => {
+    if (playing) {
+      audioRef.current.play()
+    } else if (playing !== null && audioRef.current) {
+      audioRef.current.pause()
+    }
+  })  
 
   useEffect(() => {
     loadsoldNFTs();
@@ -30,22 +42,6 @@ export default function Sold () {
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);    
     const data = await marketplaceContract.fetchItemsCreated();
 
-    // const items = await Promise.all(data.filter(i => library.find(x => x.tokenId === i.tokenId)).map(async i => {
-    //   let item = library.find(x => x.tokenId === i.tokenId);
-    //   let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-    //   item = {
-    //     price,
-    //     tokenId: i.tokenId.toNumber(),
-    //     seller: i.seller,
-    //     owner: i.owner,
-    //     sold: i.sold,
-    //     title: item.title,
-    //     description: item.description,
-    //     image: item.imageUrl,
-    //     song: item.songUrl
-    //   }
-    //   return item
-    // }))
     const items = await Promise.all(data.map(async i => {      
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
@@ -58,28 +54,66 @@ export default function Sold () {
           sold: i.sold,
           title: meta.data.title,
           description: meta.data.description,
-          image: meta.data.imageUrl,
-          song: meta.data.songUrl
+          image: meta.data.image,
+          song: meta.data.song
       }
       return item
     }))
     const soldItems = items.filter((i) => i.sold);
     setSold(soldItems)
-    setLoadingState('loaded') 
+    setNfts(items);
+    setLoadingState("loaded");
   }
 
-    if (loadingState === 'loaded' && !sold.length) 
+    if (loadingState === 'loaded' && !nfts.length) 
     return (
-        <div className={styles.mycontainer}> 
-            <h2>No NFTs sold</h2>
-        </div>
+      <div className={styles.mycontainer}> 
+          <h1>Sold NFTS</h1>
+          <h2>No NFTs sold</h2>
+      </div>
     )
     return(
-        <>
-            <div clasName={styles.mycontainer}>
-            
+      <>
+        {Boolean(sold.length) && (
+          <div className={styles.mycontainer}>
+            <h1>Sold NFTS</h1>
+            <div className={styles.grid}>
+              <div>              
+                {sold.map((nft, i) => (
+                  <div className={styles.mycard} key={i}>
+                    <center>
+                      <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
+                      <div className={StyleSheet.cardbody}>
+                        <div className={styles.cardtitle}>
+                          <p className={styles.cardtext}>{nft.title}</p>
+                          <p className={styles.cardtext}>{nft.description}</p>
+                          <p className={styles.cardtext}>{nft.price} MATIC</p>
+                        </div>
+                        <div classname={styles.cardbuttons}>                    
+                          <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
+                          <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                          >
+                            {playing ? (
+                              <TbPlayerPause />
+                            ) : (
+                              <TbPlayerPlay />
+                            )}
+                          </button>
+                          <audio 
+                            src={nft.song} 
+                            ref={audioRef}
+                            onEnded={() => setPlay(false)}
+                          />
+                        </div>
+                    </div>
+                    </center>
+                  </div>                  
+                ))}              
+              </div>
             </div>
-            
-        </>
+          </div>
+        )}
+      </>
+      
     )
 }

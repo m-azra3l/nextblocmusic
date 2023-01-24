@@ -6,7 +6,8 @@ import Web3Modal from 'web3modal'
 import styles from '@/styles/Home.module.css'
 
 import {
-  marketplaceAddress
+  marketplaceAddress,
+  nftAddress
 } from '../config'
 
 import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json'
@@ -38,9 +39,14 @@ export default function Resell() {
     let contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
 
-    listingPrice = listingPrice.toString()
-    let transaction = await contract.resellToken(id, priceFormatted, { value: listingPrice })
-    await transaction.wait()
+    const tx = await marketContract.putItemToResell(
+      nftaddress,
+      nft.itemId - 1,
+      ethers.utils.parseUnits(priceFormatted, "ether"),
+      { value: listingPrice.toString() }
+    );
+    
+    await tx.wait();
    
     router.push('/collection')
   }
@@ -48,22 +54,22 @@ export default function Resell() {
   return (
     <div className={styles.buttonContainer}>
       <form>
-        <div className='form-group'>
+        <div className={styles.formgroup}>
             <input
-            placeholder="Asset Price in Eth"
-            className="mt-2 border rounded p-4"
+            placeholder="Asset Price in MATIC"
+            className=''
             onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
             />
         </div>
-        <div className='form-group'>
+        <div className={styles.formgroup}>
             {
             image && (
                 <img style={{width: "350px"}} src={image} />
             )
             }
         </div>
-        <div className='form-group'>
-            <button onClick={listNFTForSale} className="btn">
+        <div className={styles.formgroup}>
+            <button onClick={listNFTForSale} className={styles.btn}>
                 List NFT
             </button>
         </div>
