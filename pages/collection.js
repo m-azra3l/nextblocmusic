@@ -78,9 +78,10 @@ export default function Collection () {
     )
   return(
     <>
-      <div className={styles.mycontainer}> <h1>Purchased NFTS</h1> </div>
-      <div className={styles.mycontainer}>
-               
+      <div className={styles.mycontainer}>        
+        <h1>Purchased NFTS</h1>
+      </div>
+      <div className={styles.centers}>    
         <div className={styles.grid}>
           <div>
           {
@@ -90,9 +91,9 @@ export default function Collection () {
                 <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                 <div className={StyleSheet.cardbody}>
                   <div className={styles.cardtitle}>
-                    <p className={styles.cardtext}>{nft.title}</p>
-                    <p className={styles.cardtext}>{nft.description}</p>
-                    <p className={styles.cardtext}>{nft.price} MATIC</p>
+                    <h2 className={styles.cardtext}>{nft.title}</h2>                  
+                    <p className={styles.carddescription}>{nft.description}</p>  
+                    <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
                   <div classname={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => listNFT(nft)}>Resell</button>

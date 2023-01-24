@@ -137,13 +137,13 @@ export default function Home() {
                 <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                 <div className={StyleSheet.cardbody}>
                   <div className={styles.cardtitle}>
-                    <p className={styles.cardtext}>{nft.title}</p>
-                    <p className={styles.cardtext}>{nft.description}</p>
-                    <p className={styles.cardtext}>{nft.price} MATIC</p>
+                    <h2 className={styles.cardtext}>{nft.title}</h2>                  
+                    <p className={styles.carddescription}>{nft.description}</p>  
+                    <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
                   <div classname={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
-                    <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
                     >
                       {playing ? (
                         <TbPlayerPause />

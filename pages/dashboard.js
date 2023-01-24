@@ -76,13 +76,14 @@ export default function Dashboard () {
     )
   return(
     <>
-      <div className={styles.mycontainer}> 
-        <h1>Created NFTS</h1>        
-        <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
-      </div>
       <div className={styles.mycontainer}>
-        <h1>Created NFTS</h1>        
-        <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
+        <center>
+          <h1>Created NFTs</h1> 
+          <br/>       
+          <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
+        </center>
+      </div>
+      <div className={styles.centers}>        
         <div className={styles.grid}>
           <div>
           {
@@ -92,9 +93,9 @@ export default function Dashboard () {
                 <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                 <div className={StyleSheet.cardbody}>
                   <div className={styles.cardtitle}>
-                    <p className={styles.cardtext}>{nft.title}</p>
-                    <p className={styles.cardtext}>{nft.description}</p>
-                    <p className={styles.cardtext}>{nft.price} MATIC</p>
+                    <h2 className={styles.cardtext}>{nft.title}</h2>                  
+                    <p className={styles.carddescription}>{nft.description}</p>  
+                    <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
                   <div classname={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => setPlay(!playing)}

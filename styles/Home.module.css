@@ -38,6 +38,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .cardimgtop {
   width: 100%;
@@ -50,22 +51,37 @@
 .cardtitle {
   margin-bottom: 10px;
 }
-.cardtext {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 20px;
+.cardtext {    
+  margin-top: 2%;
+  color: white;
+  font-weight: 500;
+  font-size: 20px;
+}
+.cardprice{
+  margin-top: 2%;
+  color: white;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.carddescription {
+  margin-top: 2%;
+  font-size: 15px;
+  text-align: center;
 }
 .cardbuttons {
   display: flex;
 }
 .cardbutton {
   flex: 1;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  width: 75px;
+  height: 30px;
+  background-color: rgb(39, 39, 195);
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;  
+  margin-bottom: 5px;
   text-align: center;
   transition: all 0.2s ease-in-out;
 }
@@ -75,17 +91,20 @@
 
 .cardplaybutton {
   flex: 1;
-  padding: 10px 20px;
-  background-color: blue;
-  color: #fff;
+  width: 75px;
+  height: 30px;
+  background-color:  rgb(89, 226, 89);
+  margin-left: 10%;
   border: none;
-  border-radius: 5px;
+  color: white;
+  font-size: 15px;
+  margin-bottom: 5px;
   cursor: pointer;
   text-align: center;
   transition: all 0.2s ease-in-out;
 }
 .cardplaybutton:hover {
-  background-color: #555;
+  background-color:  rgb(151, 235, 151);
 }
 
 .formgroup {

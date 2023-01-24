@@ -74,9 +74,11 @@ export default function Sold () {
     )
     return(
       <>
+        <div className={styles.mycontainer}>
+          <h1>Sold NFTS</h1>
+        </div>
         {Boolean(sold.length) && (
-          <div className={styles.mycontainer}>
-            <h1>Sold NFTS</h1>
+          <div className={styles.centers}>            
             <div className={styles.grid}>
               <div>              
                 {sold.map((nft, i) => (
@@ -85,9 +87,9 @@ export default function Sold () {
                       <img className={styles.cardimgtop} src={nft.image} alt={nft.title} />
                       <div className={StyleSheet.cardbody}>
                         <div className={styles.cardtitle}>
-                          <p className={styles.cardtext}>{nft.title}</p>
-                          <p className={styles.cardtext}>{nft.description}</p>
-                          <p className={styles.cardtext}>{nft.price} MATIC</p>
+                          <h2 className={styles.cardtext}>{nft.title}</h2>                  
+                          <p className={styles.carddescription}>{nft.description}</p>  
+                          <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                         </div>
                         <div classname={styles.cardbuttons}>                    
                           <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
