@@ -129,7 +129,6 @@ export default function Home() {
           </center>
         </div>
         <div className={styles.grid}>
-          <div>
           {
             nfts.map((nft, i) => (
               <div className={styles.mycard} key={i}>
@@ -163,7 +162,6 @@ export default function Home() {
               
             ))
           }
-          </div>
         </div>
     </>
   )

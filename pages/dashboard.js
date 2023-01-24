@@ -86,7 +86,6 @@ export default function Dashboard () {
       </div>
       <div className={styles.centers}>        
         <div className={styles.grid}>
-          <div>
           {
             mynfts.map((nft, i) => (
               <div className={styles.mycard} key={i}>
@@ -119,7 +118,6 @@ export default function Dashboard () {
               
             ))
           }
-          </div>
         </div>      
       </div> 
     </>

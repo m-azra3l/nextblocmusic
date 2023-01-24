@@ -80,8 +80,7 @@ export default function Sold () {
         </div>
         {Boolean(sold.length) && (
           <div className={styles.centers}>            
-            <div className={styles.grid}>
-              <div>              
+            <div className={styles.grid}>       
                 {sold.map((nft, i) => (
                   <div className={styles.mycard} key={i}>
                     <center>
@@ -111,8 +110,7 @@ export default function Sold () {
                     </div>
                     </center>
                   </div>                  
-                ))}              
-              </div>
+                ))}  
             </div>
           </div>
         )}

@@ -39,6 +39,10 @@
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
+  
+  margin-right: 10px;
+  
+  margin-left: 10px;
 }
 .cardimgtop {
   width: 100%;
@@ -237,8 +241,9 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
+  display: grid;  
+  justify-content: space-evenly;
+  grid-template-columns: repeat(3, minmax(25%, auto));
   width: var(--max-width);
   max-width: 100%;
 }
