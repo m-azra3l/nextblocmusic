@@ -76,6 +76,7 @@
   flex: 1;
   width: 75px;
   height: 30px;
+  margin-left: 2%;
   background-color: rgb(39, 39, 195);
   border: none;
   color: white;
@@ -94,7 +95,8 @@
   width: 75px;
   height: 30px;
   background-color:  rgb(89, 226, 89);
-  margin-left: 10%;
+  margin-left: 2%;
+  margin-right: 2%;
   border: none;
   color: white;
   font-size: 15px;
