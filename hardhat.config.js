@@ -1,3 +1,4 @@
+// imports
 require("@nomiclabs/hardhat-waffle");
 require('dotenv').config();
 
@@ -7,12 +8,12 @@ module.exports = {
     hardhat: {
       chainId: 1337
     },
-    //mumbai
+    // set mumbai testnet for deploying smart contract
     polygon_mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: [process.env.PRIVATE_KEY]
     },
-    //infura mumbai
+    //infura mumbai testnet for deploying smart contract
     infura_mumbai: {
       url: process.env.MUMBAI_INFURA,
       accounts: [process.env.PRIVATE_KEY]

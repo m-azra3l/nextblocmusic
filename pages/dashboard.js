@@ -57,8 +57,8 @@ export default function Dashboard () {
           owner: i.owner,
           title: meta.data.title,
           description: meta.data.description,
-          image: meta.data.imageUrl,
-          song: meta.data.songUrl
+          image: meta.data.image,
+          song: meta.data.song
       }
       return item
     }))
@@ -76,7 +76,7 @@ export default function Dashboard () {
     )
   return(
     <>
-      <div className={styles.mycontainer}>
+      <div className={styles.grid}>
         <h1>Created NFTS</h1>        
         <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
         <div className={styles.grid}>

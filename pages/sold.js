@@ -75,7 +75,7 @@ export default function Sold () {
     return(
       <>
         {Boolean(sold.length) && (
-          <div className={styles.mycontainer}>
+          <div className={styles.grid}>
             <h1>Sold NFTS</h1>
             <div className={styles.grid}>
               <div>              

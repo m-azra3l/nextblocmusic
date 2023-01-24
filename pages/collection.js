@@ -55,8 +55,8 @@ export default function Collection () {
           owner: i.owner,
           title: meta.data.title,
           description: meta.data.description,
-          image: meta.data.imageUrl,
-          song: meta.data.songUrl
+          image: meta.data.image,
+          song: meta.data.song
       }
       return item
     }))
@@ -78,7 +78,7 @@ export default function Collection () {
     )
   return(
     <>
-      <div className={styles.mycontainer}>
+      <div className={styles.grid}>
         <h1>Purchased NFTS</h1>        
         <div className={styles.grid}>
           <div>
