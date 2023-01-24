@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react"
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
@@ -97,7 +98,7 @@ export default function Dashboard () {
                     <p className={styles.carddescription}>{nft.description}</p>  
                     <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
-                  <div classname={styles.cardbuttons}>                    
+                  <div className={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
                     >
                       {playing ? (

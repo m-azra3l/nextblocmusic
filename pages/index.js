@@ -141,7 +141,7 @@ export default function Home() {
                     <p className={styles.carddescription}>{nft.description}</p>  
                     <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
-                  <div classname={styles.cardbuttons}>                    
+                  <div className={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
                     <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
                     >

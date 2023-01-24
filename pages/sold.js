@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react"
 import { ethers } from 'ethers'
 import { useEffect, useState, useRef } from 'react'
@@ -91,7 +92,7 @@ export default function Sold () {
                           <p className={styles.carddescription}>{nft.description}</p>  
                           <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                         </div>
-                        <div classname={styles.cardbuttons}>                    
+                        <div className={styles.cardbuttons}>                    
                           <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
                           <button className={styles.cardbutton} onClick={() => setPlay(!playing)}
                           >
