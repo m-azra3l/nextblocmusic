@@ -76,7 +76,11 @@ export default function Dashboard () {
     )
   return(
     <>
-      <div className={styles.grid}>
+      <div className={styles.mycontainer}> 
+        <h1>Created NFTS</h1>        
+        <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
+      </div>
+      <div className={styles.mycontainer}>
         <h1>Created NFTS</h1>        
         <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
         <div className={styles.grid}>

@@ -78,8 +78,9 @@ export default function Collection () {
     )
   return(
     <>
-      <div className={styles.grid}>
-        <h1>Purchased NFTS</h1>        
+      <div className={styles.mycontainer}> <h1>Purchased NFTS</h1> </div>
+      <div className={styles.mycontainer}>
+               
         <div className={styles.grid}>
           <div>
           {
