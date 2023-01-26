@@ -19,16 +19,17 @@ export default function Dashboard () {
   const router = useRouter()
   const [mynfts, setmyNfts] = useState([]) 
   const [loadingState, setLoadingState] = useState('not-loaded')
-  const audioRef = useRef(null)
-  const [playing, setPlay] = useState(false)
+  const audioRef = useRef([])
+  const [playing, setPlay] = useState(false) 
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     if (playing) {
-      audioRef.current.play()
-    } else if (playing !== null && audioRef.current) {
-      audioRef.current.pause()
+      audioRef.current[selected].play()
+    } else if (playing !== null && audioRef.current[selected]) {
+      audioRef.current[selected].pause()
     }
-  })    
+  })
   
   const handleClick = () => {
     router.push('/createnft')
@@ -70,21 +71,27 @@ export default function Dashboard () {
   if (loadingState === 'loaded' && !mynfts.length) 
   return (
     <div className={styles.mycontainer}>
-      <h1>Created NFTS</h1>
-      <h2>No NFTs Created</h2>
-      <button onClick={handleClick} className={styles.connectButton}>CreateNFT</button>
+      <center>
+        <h1>Your Created NFTS</h1>
+        <br/>
+        <h2>No NFTs Created</h2>
+        <br/>
+        <button onClick={handleClick} className={styles.connectButton}>CreateNFT</button>
+      </center>
     </div>
     )
   return(
     <>
-      <div className={styles.mycontainer}>
-        <center>
-          <h1>Created NFTs</h1> 
-          <br/>       
-          <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
-        </center>
-      </div>
-      <div className={styles.centers}>        
+      
+      <div className={styles.centers}>
+        <div className={styles.center}>
+          <br/>
+          <center>
+            <h1>Your Created NFTs</h1> 
+            <br/>       
+            <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
+          </center>
+        </div>        
         <div className={styles.grid}>
           {
             mynfts.map((nft, i) => (
@@ -98,9 +105,11 @@ export default function Dashboard () {
                     <h2 className={styles.cardprice}>{nft.price} MATIC</h2>
                   </div>
                   <div className={styles.cardbuttons}>                    
-                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => {
+                      setSelected(i)
+                      if(!playing || i === selected) setPlay(!playing)}}
                     >
-                      {playing ? (
+                      {playing && selected === i ?  (
                         <TbPlayerPause />
                       ) : (
                         <TbPlayerPlay />
@@ -108,9 +117,10 @@ export default function Dashboard () {
                     </button>
                     <audio 
                       src={nft.song} 
-                      ref={audioRef}
+                      ref={el => audioRef.current[i] = el}
+                      key={i}
                       onEnded={() => setPlay(false)}
-                  />
+                    />
                   </div>
                 </div>
                 </center>

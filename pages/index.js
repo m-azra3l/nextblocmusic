@@ -17,23 +17,25 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
-  const audioRef = useRef(null);
+  const audioRef = useRef([])
   const [nfts, setNfts] = useState([])
-  const [playing, setPlay] = useState(false)
+  const [playing, setPlay] = useState(false)  
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     if (playing) {
-      audioRef.current.play()
-    } else if (playing !== null && audioRef.current) {
-      audioRef.current.pause()
+      audioRef.current[selected].play()
+    } else if (playing !== null && audioRef.current[selected]) {
+      audioRef.current[selected].pause()
     }
   })
 
-
   const [loadingState, setLoadingState] = useState('not-loaded')
+
   useEffect(() => {
     loadNFTs()
   }, [])
+
   async function loadNFTs() {
     /* create a generic provider and query for unsold market items */
     const provider = new ethers.providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com')
@@ -88,6 +90,7 @@ export default function Home() {
   if (loadingState === 'loaded' && !nfts.length) return (
     
     <div className={styles.centers}>
+      <br/>      
       <br/>
       <center>
       <h1>Welcome to blocMusic</h1>
@@ -112,20 +115,21 @@ export default function Home() {
     <>
         <div className={styles.centers}>
           <br/>
-            <center>
-              <h1>Welcome to blocMusic</h1>
-              <div className={styles.center}>
-                <p>Putting control in the hands of the creator, home of creators supporting their works</p>
-                <div className={styles.thirteen}>
-                  <Image
-                    src="/images/blocmusic.png"
-                    alt="13"
-                    width={150}
-                    height={120}
-                    priority
-                  />
-                </div>
+          <br/>
+          <center>
+            <h1>Welcome to blocMusic</h1>
+            <div className={styles.center}>
+              <p>Putting control in the hands of the creator, home of creators supporting their works</p>
+              <div className={styles.thirteen}>
+                <Image
+                  src="/images/blocmusic.png"
+                  alt="13"
+                  width={150}
+                  height={120}
+                  priority
+                />
               </div>
+            </div>
           </center>
         </div>
         <div className={styles.grid}>
@@ -142,17 +146,20 @@ export default function Home() {
                   </div>
                   <div className={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
-                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => {
+                      setSelected(i)
+                      if(!playing || i === selected) setPlay(!playing)}}
                     >
-                      {playing ? (
-                        <TbPlayerPause />
-                      ) : (
-                        <TbPlayerPlay />
-                      )}
+                        {playing && selected === i ?  (
+                          <TbPlayerPause />
+                        ) : (
+                          <TbPlayerPlay />
+                        )}
                     </button>
                     <audio 
                       src={nft.song} 
-                      ref={audioRef}
+                      ref={el => audioRef.current[i] = el}
+                      key={i}
                       onEnded={() => setPlay(false)}
                   />
                   </div>

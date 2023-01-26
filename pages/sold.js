@@ -16,18 +16,18 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Sold () {  
   
   const [sold, setSold] = useState([])
-  const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-  const audioRef = useRef(null)
-  const [playing, setPlay] = useState(false)
+  const audioRef = useRef([])
+  const [playing, setPlay] = useState(false) 
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     if (playing) {
-      audioRef.current.play()
-    } else if (playing !== null && audioRef.current) {
-      audioRef.current.pause()
+      audioRef.current[selected].play()
+    } else if (playing !== null && audioRef.current[selected]) {
+      audioRef.current[selected].pause()
     }
-  })  
+  })
 
   useEffect(() => {
     loadsoldNFTs();
@@ -60,26 +60,30 @@ export default function Sold () {
       }
       return item
     }))
-    const soldItems = items.filter((i) => i.sold);
+    const soldItems = items.filter((i) => i.sold)
     setSold(soldItems)
-    setNfts(items);
-    setLoadingState("loaded");
+    setLoadingState("loaded")
   }
 
-    if (loadingState === 'loaded' && !nfts.length) 
+    if (loadingState === 'loaded' && !sold.length) 
     return (
-      <div className={styles.mycontainer}> 
-          <h1>Sold NFTS</h1>
+      <div className={styles.mycontainer}>      
+        <center>
+          <h1>Your Sold NFTs</h1>
+          <br/>
           <h2>No NFTs sold</h2>
+        </center>
       </div>
     )
     return(
       <>
-        <div className={styles.mycontainer}>
-          <h1>Sold NFTS</h1>
-        </div>
         {Boolean(sold.length) && (
-          <div className={styles.centers}>            
+          <div className={styles.centers}>    
+            <br/>
+            <br/>
+            <div className={styles.center}>              
+              <h1>Your Sold Items</h1>
+            </div>          
             <div className={styles.grid}>       
                 {sold.map((nft, i) => (
                   <div className={styles.mycard} key={i}>
@@ -93,17 +97,20 @@ export default function Sold () {
                         </div>
                         <div className={styles.cardbuttons}>                    
                           <button className={styles.cardbutton} onClick={() => buyNft(nft)}>Buy</button>
-                          <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
+                          <button className={styles.cardplaybutton} onClick={() => {
+                            setSelected(i)
+                            if(!playing || i === selected) setPlay(!playing)}}
                           >
-                            {playing ? (
-                              <TbPlayerPause />
-                            ) : (
-                              <TbPlayerPlay />
-                            )}
+                              {playing && selected === i ?  (
+                                <TbPlayerPause />
+                              ) : (
+                                <TbPlayerPlay />
+                              )}
                           </button>
                           <audio 
                             src={nft.song} 
-                            ref={audioRef}
+                            ref={el => audioRef.current[i] = el}
+                            key={i}
                             onEnded={() => setPlay(false)}
                           />
                         </div>

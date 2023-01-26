@@ -20,16 +20,17 @@ export default function Collection () {
   const [loadingState, setLoadingState] = useState('not-loaded')  
   const router = useRouter()
 
-  const audioRef = useRef(null)
-  const [playing, setPlay] = useState(false)
+  const audioRef = useRef([])
+  const [playing, setPlay] = useState(false) 
+  const [selected, setSelected] = useState(0)
 
   useEffect(() => {
     if (playing) {
-      audioRef.current.play()
-    } else if (playing !== null && audioRef.current) {
-      audioRef.current.pause()
+      audioRef.current[selected].play()
+    } else if (playing !== null && audioRef.current[selected]) {
+      audioRef.current[selected].pause()
     }
-  })  
+  })
   
   useEffect(() => {
     loadmyNFTs()    
@@ -72,17 +73,22 @@ export default function Collection () {
 
   if (loadingState === 'loaded' && !mynfts.length) 
   return (
-    <div className={styles.mycontainer}>      
-      <h1>Purchased NFTS</h1>
-      <h2>No NFTs Purchased</h2>
+    <div className={styles.mycontainer}>
+      <center>           
+        <h1>Your Purchases</h1>
+        <br/>
+        <h2>No NFTs Purchased</h2>
+      </center>
     </div>
     )
   return(
     <>
-      <div className={styles.mycontainer}>        
-        <h1>Purchased NFTS</h1>
-      </div>
-      <div className={styles.centers}>    
+      <div className={styles.centers}>
+        <br/>
+        <br/>
+        <div className={styles.center}>              
+          <h1>Your Purchases</h1>
+        </div>    
         <div className={styles.grid}>
           {
             mynfts.map((nft, i) => (
@@ -97,19 +103,22 @@ export default function Collection () {
                   </div>
                   <div className={styles.cardbuttons}>                    
                     <button className={styles.cardbutton} onClick={() => listNFT(nft)}>Resell</button>
-                    <button className={styles.cardplaybutton} onClick={() => setPlay(!playing)}
+                    <button className={styles.cardplaybutton} onClick={() => {
+                      setSelected(i)
+                      if(!playing || i === selected) setPlay(!playing)}}
                     >
-                      {playing ? (
-                        <TbPlayerPause />
-                      ) : (
-                        <TbPlayerPlay />
-                      )}
+                        {playing && selected === i ?  (
+                          <TbPlayerPause />
+                        ) : (
+                          <TbPlayerPlay />
+                        )}
                     </button>
                     <audio 
                       src={nft.song} 
-                      ref={audioRef}
+                      ref={el => audioRef.current[i] = el}
+                      key={i}
                       onEnded={() => setPlay(false)}
-                  />
+                    />
                   </div>
                 </div>
                 </center>

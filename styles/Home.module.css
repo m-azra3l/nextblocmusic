@@ -26,11 +26,18 @@
 }
 
 .description p {
-  position: relative;
   margin: 0;
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
+}
+
+.description p,
+.description div {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
 }
 
 .mycard {
@@ -38,7 +45,7 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   
   margin-right: 10px;
   
@@ -82,7 +89,8 @@
   height: 30px;
   margin-left: 2%;
   background-color: rgb(39, 39, 195);
-  border: none;
+  border: none;  
+  border-radius: 5px;
   color: white;
   font-size: 15px;
   cursor: pointer;  
@@ -101,6 +109,7 @@
   background-color:  rgb(89, 226, 89);
   margin-left: 2%;
   margin-right: 2%;
+  border-radius: 5px;
   border: none;
   color: white;
   font-size: 15px;
@@ -196,6 +205,7 @@
 }
 
 .mycontainer {
+  margin-top: 20px;
   position: absolute; /* Position the container at the top center of the page */
   top: 20%;
   left: 50%;
@@ -447,6 +457,7 @@
 
   .description p,
   .description div {
+    margin-top: 0px;
     display: flex;
     justify-content: center;
     position: fixed;
