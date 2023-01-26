@@ -68,7 +68,7 @@ export default function Collection () {
   }
 
   function listNFT(nft) {
-      router.push(`/resell?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
+      router.push(`/resell?id=${nft.tokenId}&tokenURI=${nft.tokenUri}`)
   }
 
   if (loadingState === 'loaded' && !mynfts.length) 

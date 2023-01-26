@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useState } from 'react'
@@ -17,7 +18,7 @@ import MarketPlace from '../artifacts/contracts/MarketPlace.sol/MarketPlace.json
 export default function Resell() {
   const [formInput, updateFormInput] = useState({ price: '', image: '' })
   const router = useRouter()
-  const { id, tokenURI } = router.query
+  const { id, tokenUri } = router.query
   const { image, price } = formInput
 
   useEffect(() => {
@@ -25,8 +26,8 @@ export default function Resell() {
   }, [id])
 
   async function fetchNFT() {
-    if (!tokenURI) return
-    const meta = await axios.get(tokenURI)
+    if (!tokenUri) return
+    const meta = await axios.get(tokenUri)
     updateFormInput(state => ({ ...state, image: meta.data.image }))
   }
 
