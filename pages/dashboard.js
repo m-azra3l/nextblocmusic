@@ -76,7 +76,7 @@ export default function Dashboard () {
         <br/>
         <h2>No NFTs Created</h2>
         <br/>
-        <button onClick={handleClick} className={styles.connectButton}>CreateNFT</button>
+        <button onClick={handleClick} className={styles.connectButton}>Create NFT</button>
       </center>
     </div>
     )

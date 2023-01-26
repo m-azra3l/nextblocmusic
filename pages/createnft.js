@@ -43,7 +43,6 @@ export default function CreateNFT() {
     const [songUrl, setSongUrl] = useState(null)
 
     const [formInput, updateFormInput] = useState({ title: "", price: "", description: "" })
-    const [loadingCreate, setLoadingCreate] = useState(false);
     const router = useRouter()
 
     const handleClick = () => {
@@ -134,8 +133,7 @@ export default function CreateNFT() {
         transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
         
         await transaction.wait()
-        alert('Token created succesfully')        
-        setLoadingCreate(false)
+        alert('Token created succesfully')
         router.push('/dashboard')        
       }
       return(
@@ -184,16 +182,7 @@ export default function CreateNFT() {
                     <div className={styles.progressbar} style={{ width: `${progress}%` }}></div>
                 </div>
                 <div className={styles.cardbuttons}>
-                    <button onClick={(event) => {event.preventDefault();uploadToIPFS()}} className={styles.btn}>Create 
-                    {loadingCreate ? (<img
-                        style={{ width: "30px", height: "30px", marginLeft: "20px" }}
-                        src={
-                            "https://icons8.com/preloaders/preloaders/865/Ethereum%20logo%20revolving.gif"
-                        }
-                        alt="loading..."
-                        />
-                    ) : null}
-                    </button>
+                    <button onClick={(event) => {event.preventDefault();uploadToIPFS()}} className={styles.btn}>Create</button>
                     <button onClick={handleClick} className={styles.btnCancel}>Cancel</button>
                 </div>
             </form>

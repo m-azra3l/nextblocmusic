@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
@@ -25,7 +27,7 @@ export default function Resell() {
   async function fetchNFT() {
     if (!tokenURI) return
     const meta = await axios.get(tokenURI)
-    updateFormInput(state => ({ ...state, image: meta.data.imageUrl }))
+    updateFormInput(state => ({ ...state, image: meta.data.image }))
   }
 
   async function listNFTForSale() {
@@ -69,7 +71,7 @@ export default function Resell() {
             }
         </div>
         <div className={styles.formgroup}>
-            <button onClick={listNFTForSale} className={styles.btn}>
+            <button onClick={(event) => {event.preventDefault();listNFTForSale}} className={styles.btn}>
                 List NFT
             </button>
         </div>
