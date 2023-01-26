@@ -86,6 +86,7 @@ export default function CreateNFT() {
                 setSongUrl(url)
             }
         } catch (error) {
+            alert('Error uploading file: ', error)
             console.log('Error uploading file: ', error)
         }
       }
@@ -97,7 +98,6 @@ export default function CreateNFT() {
         const data = JSON.stringify({
           title, description, image: imageUrl, song: songUrl
         })
-        alert(data)
         try {
           const added = await client.add(data)
             const url = `https://ipfs.io/ipfs/${added.path}`

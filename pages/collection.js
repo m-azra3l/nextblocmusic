@@ -58,7 +58,8 @@ export default function Collection () {
           title: meta.data.title,
           description: meta.data.description,
           image: meta.data.image,
-          song: meta.data.song
+          song: meta.data.song,
+          tokenUri
       }
       return item
     }))
@@ -67,7 +68,6 @@ export default function Collection () {
   }
 
   function listNFT(nft) {
-      console.log('nft:', nft)
       router.push(`/resell?id=${nft.tokenId}&tokenURI=${nft.tokenURI}`)
   }
 

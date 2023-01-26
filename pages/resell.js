@@ -42,7 +42,7 @@ export default function Resell() {
     let listingPrice = await contract.getListingPrice()
 
     const tx = await marketContract.putItemToResell(
-      nftaddress,
+      nftAddress,
       nft.itemId - 1,
       ethers.utils.parseUnits(priceFormatted, "ether"),
       { value: listingPrice.toString() }
