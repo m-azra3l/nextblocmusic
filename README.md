@@ -6,7 +6,11 @@ This project is a web3-based marketplace for buying, selling, and trading music 
 
 ## Project Snapshot
 
-Insert a screenshot of the landing page of the project.
+![Screenshot (132)](https://user-images.githubusercontent.com/26850963/214449150-0aa79e0a-86e2-4ce9-bb27-62c86bc2d99b.png)
+
+![Screenshot (133)](https://user-images.githubusercontent.com/26850963/214449197-06338849-b5a9-4765-927a-1a27eb3c129b.png)
+
+![Screenshot (131)](https://user-images.githubusercontent.com/26850963/214449238-e06fdc1a-c564-4d5d-ade8-bb5455d7593f.png)
 
 ## Project Website Link
 
