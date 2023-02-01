@@ -14,7 +14,7 @@ This project is a web3-based marketplace for buying, selling, and trading music 
 
 ## Project Website Link
 
-Live website link: [blocMusic](https://blocmusic.vercel.app/)
+Live website link: [blocMusic](https://blocmusic-m-azra3l.vercel.app/)
 
 ## Project Author
 
