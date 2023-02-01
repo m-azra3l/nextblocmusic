@@ -32,7 +32,6 @@ export default function Resell() {
   }
 
   async function listNFTForSale() {
-    alert("Clicked")
     if (!price) return
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
