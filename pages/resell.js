@@ -32,20 +32,21 @@ export default function Resell() {
   }
 
   async function listNFTForSale() {
+    alert("Clicked")
     if (!price) return
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
-    const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
+    //const priceFormatted = ethers.utils.parseUnits(formInput.price, 'ether')
     let contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
 
-    const tx = await marketContract.putItemToResell(
+    const tx = await contract.putItemToResell(
       nftAddress,
-      nft.itemId - 1,
-      ethers.utils.parseUnits(priceFormatted, "ether"),
+      id,
+      ethers.utils.parseUnits(formInput.price, "ether"),
       { value: listingPrice.toString() }
     );
     
@@ -72,7 +73,7 @@ export default function Resell() {
             }
         </div>
         <div className={styles.formgroup}>
-            <button onClick={(event) => {event.preventDefault();listNFTForSale}} className={styles.btn}>
+            <button onClick={(event) => {event.preventDefault();listNFTForSale()}} className={styles.btn}>
                 List NFT
             </button>
         </div>
