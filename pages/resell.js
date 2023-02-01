@@ -52,7 +52,7 @@ export default function Resell() {
     
     await tx.wait();
    
-    router.push('/collection')
+    router.push('/')
   }
 
   return (
