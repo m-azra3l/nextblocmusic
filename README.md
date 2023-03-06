@@ -20,9 +20,6 @@ Live website link: [blocMusic](https://blocmusic-m-azra3l.vercel.app/)
 
 - [Michael Damilare Adesina](https://github.com/m-azra3l)
 
-## Project Reference
-
-Smart Contract Reference [NFT Market Place](https://github.com/ThalesBMC/NFTMarketplace)
 
 ## How to Install and Run the Project
 
