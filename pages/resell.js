@@ -42,16 +42,22 @@ export default function Resell() {
     let contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
     let listingPrice = await contract.getListingPrice()
 
-    const tx = await contract.putItemToResell(
-      nftAddress,
-      id,
-      ethers.utils.parseUnits(formInput.price, "ether"),
-      { value: listingPrice.toString() }
-    );
-    
-    await tx.wait();
-   
-    router.push('/')
+    try{
+      const tx = await contract.putItemToResell(
+        nftAddress,
+        id,
+        ethers.utils.parseUnits(formInput.price, "ether"),
+        { value: listingPrice.toString() }
+      );
+      
+      await tx.wait()
+      alert('NFT has been put up for sale')   
+      router.push('/')
+    }
+    catch(e){
+      console.log(e)
+      alert('Unable to put NFT up for sale')
+    }
   }
 
   return (

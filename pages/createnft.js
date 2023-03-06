@@ -112,29 +112,35 @@ export default function CreateNFT() {
       }
     
       async function listNFTForSale(url) {
+        try{
+            const web3Modal = new Web3Modal()
+            const connection = await web3Modal.connect()
+            const provider = new ethers.providers.Web3Provider(connection)
+            const signer = provider.getSigner()
 
-        const web3Modal = new Web3Modal()
-        const connection = await web3Modal.connect()
-        const provider = new ethers.providers.Web3Provider(connection)
-        const signer = provider.getSigner()
-
-        let contract = new ethers.Contract(nftAddress, NFT.abi, signer);
-        let transaction = await contract.createToken(url);
-        let tx = await transaction.wait();
-        let event = tx.events[0];
-        let value = event.args[2];
-        let tokenId = value.toNumber();
-    
-        /* next, create the item */
-        const price = ethers.utils.parseUnits(formInput.price, 'ether')
-        contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
-        let listingPrice = await contract.getListingPrice()
-        listingPrice = listingPrice.toString()
-        transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
+            let contract = new ethers.Contract(nftAddress, NFT.abi, signer);
+            let transaction = await contract.createToken(url);
+            let tx = await transaction.wait();
+            let event = tx.events[0];
+            let value = event.args[2];
+            let tokenId = value.toNumber();
         
-        await transaction.wait()
-        alert('Token created succesfully')
-        router.push('/dashboard')        
+            /* next, create the item */
+            const price = ethers.utils.parseUnits(formInput.price, 'ether')
+            contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
+            let listingPrice = await contract.getListingPrice()
+            listingPrice = listingPrice.toString()
+            transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
+            
+            await transaction.wait()
+            alert('Token created succesfully')
+            router.push('/dashboard')   
+        }
+        catch(e)
+        {
+            console.log(e)
+            alert('Error creating token')
+        }
       }
       return(
         <>
