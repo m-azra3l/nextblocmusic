@@ -24,11 +24,18 @@ export default function Home() {
 
   useEffect(() => {
     if (playing) {
-      audioRef.current[selected].play()
+      // Pause any previously playing audio
+      audioRef.current.forEach((audio, index) => {
+        if (index !== selected) {
+          audio.pause();
+        }
+      });
+      // Play the selected audio
+      audioRef.current[selected].play();
     } else if (playing !== null && audioRef.current[selected]) {
-      audioRef.current[selected].pause()
+      audioRef.current[selected].pause();
     }
-  })
+  }, [playing, selected]);
 
   const [loadingState, setLoadingState] = useState('not-loaded')
 
@@ -50,12 +57,13 @@ export default function Home() {
     *  them as well as fetch their token metadata
     */
       
-    const items = await Promise.all(data.map(async i => {      
-      const tokenUri = await tokenContract.tokenURI(i.tokenId)
-      const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let item = {
-        price,
+    try{
+      const items = await Promise.all(data.map(async i => {      
+        const tokenUri = await tokenContract.tokenURI(i.tokenId)
+        const meta = await axios.get(tokenUri)
+        let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+        let item = {
+          price,
           tokenId: i.tokenId.toNumber(),
           seller: i.seller,
           owner: i.owner,
@@ -64,28 +72,42 @@ export default function Home() {
           description: meta.data.description,
           image: meta.data.image,
           song: meta.data.song
-      }
-      return item
-    }))
-
-    setNfts(items)
-    setLoadingState('loaded') 
+        }
+        return item
+      }))
+  
+      setNfts(items)
+      setLoadingState('loaded') 
+    }
+    catch(e){
+      console.log(e)
+      alert('Unable to load NFTs',e)
+    }
   }
-  async function buyNft(nft) {
-    /* needs the user to sign the transaction, so will use Web3Provider and sign it */
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    const contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
 
-    /* user will be prompted to pay the asking proces to complete the transaction */
-    const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
-    const transaction = await contract.createMarketSale(nftAddress, nft.tokenId, {
-      value: price
-    })
-    await transaction.wait()
-    loadNFTs()
+  async function buyNft(nft) {
+    try{
+      /* needs the user to sign the transaction, so will use Web3Provider and sign it */
+      const web3Modal = new Web3Modal()
+      const connection = await web3Modal.connect()
+      const provider = new ethers.providers.Web3Provider(connection)
+      const signer = provider.getSigner()
+      const contract = new ethers.Contract(marketplaceAddress, MarketPlace.abi, signer)
+
+      /* user will be prompted to pay the asking proces to complete the transaction */
+      const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
+      const transaction = await contract.createMarketSale(nftAddress, nft.tokenId, {
+        value: price
+      })
+      await transaction.wait()
+      loadNFTs()
+      alert('Purchase succesful, check out your newly purchased NFT in your collections page')
+    }
+    catch(e)
+    {
+      console.log(e)
+      alert('Transaction error', e)
+    }
   }
   if (loadingState === 'loaded' && !nfts.length) return (
     

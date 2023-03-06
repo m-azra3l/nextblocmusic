@@ -25,11 +25,18 @@ export default function Dashboard () {
 
   useEffect(() => {
     if (playing) {
-      audioRef.current[selected].play()
+      // Pause any previously playing audio
+      audioRef.current.forEach((audio, index) => {
+        if (index !== selected) {
+          audio.pause();
+        }
+      });
+      // Play the selected audio
+      audioRef.current[selected].play();
     } else if (playing !== null && audioRef.current[selected]) {
-      audioRef.current[selected].pause()
+      audioRef.current[selected].pause();
     }
-  })
+  }, [playing, selected]);  
   
   const handleClick = () => {
     router.push('/createnft')
@@ -48,12 +55,13 @@ export default function Dashboard () {
     const tokenContract = new ethers.Contract(nftAddress, NFT.abi, provider);    
     const data = await marketplaceContract.fetchItemsCreated();
 
-    const items = await Promise.all(data.map(async i => {      
-      const tokenUri = await tokenContract.tokenURI(i.tokenId)
-      const meta = await axios.get(tokenUri)
-      let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
-      let item = {
-        price,
+    try{
+      const items = await Promise.all(data.map(async i => {      
+        const tokenUri = await tokenContract.tokenURI(i.tokenId)
+        const meta = await axios.get(tokenUri)
+        let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
+        let item = {
+          price,
           tokenId: i.tokenId.toNumber(),
           seller: i.seller,
           owner: i.owner,
@@ -61,11 +69,17 @@ export default function Dashboard () {
           description: meta.data.description,
           image: meta.data.image,
           song: meta.data.song
-      }
-      return item
-    }))
-    setmyNfts(items);
-    setLoadingState('loaded')
+        }
+        return item
+      }))
+      setmyNfts(items);
+      setLoadingState('loaded')
+    }
+    catch(e)
+    {
+      console.log(e)
+      alert('Unable to load your created NFTs', e)
+    }
   }
 
   if (loadingState === 'loaded' && !mynfts.length) 
