@@ -75,6 +75,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.jsx`. The page auto-updates as you edit the file.
 
+### Infura IPFS
+
+Here are the steps to create an Infura IPFS project, get the project ID and project secret key, and add them to the .env file:
+
+1. Sign up for an account on Infura's website and create a new project.
+
+2. In the project dashboard, click on the "Keys" tab and generate a new API key for IPFS.
+
+3. Copy the Project ID and Project Secret Key from the project dashboard.
+
+4. Rename `.env.example` to `.env` in the root directory of your project.
+
+5. Add the following lines to the .env file, replacing YOUR_PROJECT_ID and YOUR_PROJECT_SECRET_KEY with the actual values:
+
+IPFS_ID = "Your infura ipfs project Id "
+IPFS_KEY = "Your infura ipfs project key"
+
+6. Save the .env file.
+Now you can use the project ID and project secret key in your application by accessing the IPFS_ID and IPFS_KEY environment variables.
+
 ### Learn more about Next JS
 
 To learn more about Next.js, take a look at the following resources:
