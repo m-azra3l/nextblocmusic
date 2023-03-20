@@ -132,8 +132,11 @@ export default function CreateNFT() {
             listingPrice = listingPrice.toString()
             transaction = await contract.createMarketItem(nftAddress, tokenId, price, { value: listingPrice })
             
-            await transaction.wait()
-            alert('Token created succesfully')
+            const receipt = await transaction.wait()
+            if (receipt.status === 1) { 
+                alert('Token created succesfully')
+            }
+            console.log(`Transaction hash: ${transaction.hash}`) 
             router.push('/dashboard')   
         }
         catch(e)

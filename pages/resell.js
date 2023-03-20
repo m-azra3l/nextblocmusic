@@ -49,14 +49,16 @@ export default function Resell() {
         ethers.utils.parseUnits(formInput.price, "ether"),
         { value: listingPrice.toString() }
       );
-      
-      await tx.wait()
-      alert('NFT has been put up for sale')   
-      router.push('/')
+      const receipt = await tx.wait();
+      if (receipt.status === 1) { 
+        alert('NFT has been put up for sale');
+      }
+      console.log(`Transaction hash: ${tx.hash}`); 
+      router.push('/');
     }
     catch(e){
-      console.log(e)
-      alert('Unable to put NFT up for sale')
+      console.log(e);
+      alert('Unable to put NFT up for sale');
     }
   }
 

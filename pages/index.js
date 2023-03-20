@@ -75,7 +75,8 @@ export default function Home() {
         }
         return item
       }))
-  
+       // Sort the items array by tokenId in descending order
+      items.sort((a, b) => b.tokenId - a.tokenId);
       setNfts(items)
       setLoadingState('loaded') 
     }
@@ -98,10 +99,13 @@ export default function Home() {
       const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')   
       const transaction = await contract.createMarketSale(nftAddress, nft.tokenId, {
         value: price
-      })
-      await transaction.wait()
+      })      
+      const receipt = await transaction.wait()
+      if (receipt.status === 1) {
+        alert('Purchase succesful, check out your newly purchased NFT in your collections page')
+      }
+      console.log(`Transaction hash: ${transaction.hash}`)   
       loadNFTs()
-      alert('Purchase succesful, check out your newly purchased NFT in your collections page')
     }
     catch(e)
     {
@@ -114,21 +118,19 @@ export default function Home() {
     <div className={styles.centers}>
       <br/>      
       <br/>
-      <center>
-      <h1>Welcome to blocMusic</h1>
+      <center>      
       <div className={styles.center}>
-        <p>Putting control in the hands of the creator, home of creators supporting their works</p>
         <div className={styles.thirteen}>
           <Image
             src="/images/blocmusic.png"
             alt="13"
-            width={150}
-            height={120}
+            width={250}
+            height={200}
             priority
           />
-        </div>
+        </div>        
       </div>
-      
+      <h1>blocMusic</h1>
       <h2>No items in marketplace</h2>
     </center>
   </div>
@@ -139,19 +141,19 @@ export default function Home() {
           <br/>
           <br/>
           <center>
-            <h1>Welcome to blocMusic</h1>
-            <div className={styles.center}>
-              <p>Putting control in the hands of the creator, home of creators supporting their works</p>
+            
+            <div className={styles.center}>              
               <div className={styles.thirteen}>
                 <Image
                   src="/images/blocmusic.png"
                   alt="13"
-                  width={150}
-                  height={120}
+                  width={250}
+                  height={200}
                   priority
                 />
               </div>
             </div>
+            <h1>blocMusic</h1>
           </center>
         </div>
         <div className={styles.grid}>

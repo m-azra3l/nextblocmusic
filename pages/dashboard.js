@@ -72,6 +72,8 @@ export default function Dashboard () {
         }
         return item
       }))
+       // Sort the items array by tokenId in descending order
+      items.sort((a, b) => b.tokenId - a.tokenId);
       setmyNfts(items);
       setLoadingState('loaded')
     }

@@ -68,6 +68,8 @@ export default function Sold () {
         }
         return item
       }))
+      // Sort the items array by tokenId in descending order
+      items.sort((a, b) => b.tokenId - a.tokenId);
       const soldItems = items.filter((i) => i.sold)
       setSold(soldItems)
       setLoadingState("loaded")

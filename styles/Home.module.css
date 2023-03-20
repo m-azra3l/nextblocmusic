@@ -510,8 +510,8 @@
   .logo,
   .thirteen img {
     filter: invert(1) drop-shadow(0 0 0.3rem #ffffff70);
-    height: 41;
-    width: 41;
+    height: 200;
+    width: 200;
 
   }
 }
